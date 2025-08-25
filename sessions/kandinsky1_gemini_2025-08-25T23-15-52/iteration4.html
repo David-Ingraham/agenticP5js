@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
+</head>
+<body>
+<script>
+function setup() {
+    createCanvas(643, 518);
+    noLoop();
+}
+function draw() {
+    background('#A7C4A3');
+
+    // Outermost purple circle
+    fill('#7F00FF');
+    stroke('#000000');
+    strokeWeight(3);
+    circle(180, 150, 280);
+
+    // Inner purple circles
+    fill('#A30B9A');
+    circle(180, 150, 196); 
+    fill('#DA0056');
+    circle(180, 150, 112); 
+
+
+    fill('#A7C4A3'); // Match background to make it transparent
+    stroke('#000000');
+    strokeWeight(3);
+    triangle(320, 50, 580, 420, 120, 420);
+
+    // Adjust position and size of circles
+    let circleCenterX = 430;
+    let circleCenterY = 360;
+    let circleDiameter = 50;
+
+    // Blue Circle 
+    fill('#0000FF');
+    circle(circleCenterX, circleCenterY, circleDiameter);
+
+    // Red semi-circle
+    fill('#FF0000');
+    stroke('#000000');
+    strokeWeight(3);
+    arc(circleCenterX - circleDiameter/2 , circleCenterY, circleDiameter, circleDiameter, 0, PI);
+
+
+    // Yellow circle
+    fill('#FFFF00');
+    circle(circleCenterX + circleDiameter/2, circleCenterY, circleDiameter); 
+
+    // White circle 
+    fill('#FFFFFF');
+    circle(circleCenterX + circleDiameter*0.75, circleCenterY - circleDiameter/4, circleDiameter/2); 
+
+    stroke('#000000');
+    strokeWeight(3);
+    line(50, 250, 400, 200); 
+    line(580, 100, 200, 500);
+    line(0, 400, 300, 100);   
+
+}
+</script>
+</body>
+</html>

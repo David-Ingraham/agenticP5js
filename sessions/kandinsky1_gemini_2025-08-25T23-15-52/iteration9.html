@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
+</head>
+<body>
+<script>
+function setup() {
+    createCanvas(643, 518);
+    noLoop();
+}
+function draw() {
+    background('#A7C4A3');
+
+    // Outermost purple circle
+    fill('#7F00FF');
+    stroke('#000000');
+    strokeWeight(3);
+    circle(180, 150, 280);
+
+    // Inner purple circles
+    fill('#A30B9A');
+    circle(180, 150, 196); 
+    fill('#DA0056');
+    circle(180, 150, 112); 
+
+
+    fill('#405E40'); // Darker green
+    stroke('#000000');
+    strokeWeight(1); // Thinner stroke
+    triangle(90, 60, 580, 400, 90, 400); // Corrected triangle vertices
+
+
+    let baseX = 560; // Adjusted
+    let baseY = 330; // Adjusted
+    let baseDiameter = 65; // Adjusted
+
+    // Blue Circle
+    fill('#0000FF');
+    circle(baseX, baseY, baseDiameter);
+
+    // Red semi-circle (using arc for crescent shape)
+    fill('#FF0000');
+    arc(baseX - baseDiameter * 0.5, baseY, baseDiameter*1.1, baseDiameter*0.9, -PI/3, 2*PI/3); // Crescent
+
+
+    // Yellow circle (adjusted size and position)
+    fill('#FFFF00');
+    circle(baseX + baseDiameter * 0.3, baseY - baseDiameter * 0.35, baseDiameter * 0.6); // Refined positioning
+
+    // White circle (adjusted size and position)
+    fill('#FFFFFF');
+    circle(baseX + baseDiameter * 0.15, baseY - baseDiameter * 0.5, baseDiameter * 0.3); // Refined positioning
+
+
+    fill('#264E00'); // Dark green
+    circle(100, 460, 40);
+
+    let rectX = 540;
+    let rectY = 100;
+    let rectSize = 25;
+
+    fill('#FF0000');
+    rect(rectX, rectY, rectSize, rectSize);
+    fill('#7F00FF');
+    rect(rectX + rectSize, rectY, rectSize, rectSize);
+    fill('#FFFF00');
+    rect(rectX, rectY + rectSize, rectSize, rectSize);
+    fill('#0000FF');
+    rect(rectX + rectSize, rectY + rectSize, rectSize, rectSize);
+
+
+    stroke('#000000');
+    strokeWeight(3);
+    line(60, 290, 360, 220);    // Adjusted start and end points for better angle
+    line(580, 80, 140, 500);    // Adjusted line position
+    line(15, 440, 270, 75);    // Adjusted line to intersect near top of triangle
+
+}
+</script>
+</body>
+</html>

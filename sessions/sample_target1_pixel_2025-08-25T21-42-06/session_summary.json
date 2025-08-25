@@ -1,0 +1,27 @@
+{
+  "timestamp": "2025-08-25T21:42:21.814Z",
+  "sessionDir": "sessions/sample_target1_pixel_2025-08-25T21-42-06",
+  "targetImage": "sessions/sample_target1_pixel_2025-08-25T21-42-06/target.png",
+  "evaluationMethod": "simplified_pixel_analysis",
+  "maxIterations": 4,
+  "targetScore": 8,
+  "results": {
+    "bestScore": 8,
+    "bestIteration": 1,
+    "targetReached": true
+  },
+  "iterations": [
+    {
+      "iteration": 1,
+      "score": 8,
+      "instructions": [
+        "Fix white rectangle: move to (20, 20) and resize to 360x200",
+        "Fix yellow rectangle: move to (20, 20) and resize to 260x180",
+        "Fix gray rectangle: move to (0, 240) and resize to 280x140"
+      ],
+      "codeFile": "iteration1.html",
+      "screenshotFile": "iteration1.png",
+      "analysisFile": "iteration1_analysis.json"
+    }
+  ]
+}

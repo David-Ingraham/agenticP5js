@@ -1,0 +1,9 @@
+{
+  "success": true,
+  "analysis": "**Differences:**\n1. The grey rectangle is too tall. It should be 98px tall (from y=265 to y=363), but it's currently 118px tall.\n2. The bottom white stripe is positioned incorrectly. It should start at y=363 and be 10px tall, not at y=361 with a height of 12px.\n3. The black rectangle's vertical position is incorrect. It should begin at y=279 and have a height of 94px, making it end at y=373. It currently seems to be ending prematurely, aligned with the incorrect bottom white stripe position.\n\n\n**Instructions:**\n- Change the grey rectangle's height: `rect(0, 265, 174, 118);` becomes `rect(0, 265, 174, 98);`\n- Change the bottom white stripe's position and height: `rect(0, 361, 174, 12);` becomes `rect(0, 363, 174, 10);`\n- No change is needed to the black rectangle.  The corrected height of the grey rectangle and positioning of the bottom white stripe should automatically correct the perceived issue with the black rectangle.  Ensure the black rectangle code remains as:  `fill('#000000'); rect(174, 279, 87, 94);`\n",
+  "instructions": [
+    "Change the grey rectangle's height: `rect(0, 265, 174, 118);` becomes `rect(0, 265, 174, 98);`",
+    "Change the bottom white stripe's position and height: `rect(0, 361, 174, 12);` becomes `rect(0, 363, 174, 10);`",
+    "No change is needed to the black rectangle.  The corrected height of the grey rectangle and positioning of the bottom white stripe should automatically correct the perceived issue with the black rectangle.  Ensure the black rectangle code remains as:  `fill('#000000'); rect(174, 279, 87, 94);`"
+  ]
+}

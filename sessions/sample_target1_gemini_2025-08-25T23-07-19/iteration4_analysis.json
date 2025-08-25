@@ -1,0 +1,9 @@
+{
+  "success": true,
+  "analysis": "**Differences:**\n1. The grey rectangle is too short. It should be 110px tall instead of 101px.\n2. The bottom white stripe is positioned too low. It should start at y=357 instead of y=347.  It's also 7 pixels too tall.  It should be 12px, not 19px.\n3. The black rectangle is too tall: 94px instead of 84px.  This also means it is positioned too low.\n\n**Instructions:**\n- Change the grey rectangle's height: `rect(0, 246, 174, 101);` becomes `rect(0, 246, 174, 110);`\n- Change the white stripe's position and height: `rect(0, 347, 174, 19);` becomes `rect(0, 357, 174, 12);`\n- Change the black rectangle's height and position: `rect(174, 279, 87, 94);` becomes `rect(174, 279, 87, 84);`\n```html\n<!DOCTYPE html>\n<html>\n<head>\n    <script src=\"https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js\"></script>\n</head>\n<body>\n<script>\nfunction setup() {\n    createCanvas(261, 373);\n    noLoop();\n}\nfunction draw() {\n    fill('#FFCC00');\n    rect(0, 0, 174, 246);\n    fill('#FFFFFF');\n    rect(174, 0, 87, 260);\n    fill('#A6A6A6');\n    rect(0, 246, 174, 110);\n    fill('#FFFFFF');\n    rect(0, 357, 174, 12);\n    fill('#FF0000');\n    rect(174, 260, 87, 19);\n    fill('#000000');\n    rect(174, 279, 87, 84);\n}\n</script>\n</body>\n</html>\n```\n",
+  "instructions": [
+    "Change the grey rectangle's height: `rect(0, 246, 174, 101);` becomes `rect(0, 246, 174, 110);`",
+    "Change the white stripe's position and height: `rect(0, 347, 174, 19);` becomes `rect(0, 357, 174, 12);`",
+    "Change the black rectangle's height and position: `rect(174, 279, 87, 94);` becomes `rect(174, 279, 87, 84);`"
+  ]
+}

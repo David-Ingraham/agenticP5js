@@ -1,0 +1,10 @@
+{
+  "success": true,
+  "score": 90,
+  "analysis": "**Score: 90/100**\n\n**Differences:**\n1. The white stripe is too thick.\n2. The red stripe is positioned slightly too high.\n3. The white rectangle on the right side is too short.\n\n\n**Instructions:**\n- Change the height of the white stripe from 19 pixels to 17 pixels:  `rect(0, 202, 174, 17);` (also adjust the y coordinate slightly for better alignment).\n- Move the red stripe down by 2 pixels: `rect(174, 232, 87, 17);`\n- Increase the height of the white rectangle on the right by 20 pixels: `rect(174, 0, 87, 267);`\n\nRevised Code:\n\n```html\n<!DOCTYPE html>\n<html>\n<head>\n    <script src=\"https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js\"></script>\n</head>\n<body>\n<script>\nfunction setup() {\n    createCanvas(261, 373);\n    noLoop();\n}\nfunction draw() {\n    fill('#FFCC00');\n    rect(0, 0, 174, 219);\n    fill('#FFFFFF');\n    rect(174, 0, 87, 267); // Adjusted height\n    fill('#808080');\n    rect(0, 219, 174, 154);\n    fill('#FFFFFF');\n    rect(0, 202, 174, 17); // Adjusted height and y-coordinate\n    fill('#000000');\n    rect(174, 249, 87, 124); // Because of the previous change, this black rectangle needs to be shorted and moved down so it stays within the canvas size\n    fill('#FF0000');\n    rect(174, 232, 87, 17); // Adjusted y-coordinate\n\n}\n</script>\n</body>\n</html>\n```\n",
+  "instructions": [
+    "Change the height of the white stripe from 19 pixels to 17 pixels:  `rect(0, 202, 174, 17);` (also adjust the y coordinate slightly for better alignment).",
+    "Move the red stripe down by 2 pixels: `rect(174, 232, 87, 17);`",
+    "Increase the height of the white rectangle on the right by 20 pixels: `rect(174, 0, 87, 267);`"
+  ]
+}

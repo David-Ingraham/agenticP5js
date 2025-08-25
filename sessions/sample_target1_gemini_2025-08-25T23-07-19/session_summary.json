@@ -1,0 +1,73 @@
+{
+  "timestamp": "2025-08-25T23:10:33.259Z",
+  "sessionDir": "sessions/sample_target1_gemini_2025-08-25T23-07-19",
+  "targetImage": "sessions/sample_target1_gemini_2025-08-25T23-07-19/target.png",
+  "evaluationMethod": "gemini_visual_comparison_no_scoring",
+  "maxIterations": 10,
+  "results": {
+    "bestIteration": 1,
+    "totalIterations": 10,
+    "completionMethod": "iterative_improvement"
+  },
+  "iterations": [
+    {
+      "iteration": 1,
+      "codeFile": "iteration1.html",
+      "screenshotFile": "iteration1.png"
+    },
+    {
+      "iteration": 2,
+      "codeFile": "iteration2.html",
+      "screenshotFile": "iteration2.png",
+      "analysisFile": "iteration2_analysis.json"
+    },
+    {
+      "iteration": 3,
+      "codeFile": "iteration3.html",
+      "screenshotFile": "iteration3.png",
+      "analysisFile": "iteration3_analysis.json"
+    },
+    {
+      "iteration": 4,
+      "codeFile": "iteration4.html",
+      "screenshotFile": "iteration4.png",
+      "analysisFile": "iteration4_analysis.json"
+    },
+    {
+      "iteration": 5,
+      "codeFile": "iteration5.html",
+      "screenshotFile": "iteration5.png",
+      "analysisFile": "iteration5_analysis.json"
+    },
+    {
+      "iteration": 6,
+      "codeFile": "iteration6.html",
+      "screenshotFile": "iteration6.png",
+      "analysisFile": "iteration6_analysis.json"
+    },
+    {
+      "iteration": 7,
+      "codeFile": "iteration7.html",
+      "screenshotFile": "iteration7.png",
+      "analysisFile": "iteration7_analysis.json"
+    },
+    {
+      "iteration": 8,
+      "codeFile": "iteration8.html",
+      "screenshotFile": "iteration8.png",
+      "analysisFile": "iteration8_analysis.json"
+    },
+    {
+      "iteration": 9,
+      "codeFile": "iteration9.html",
+      "screenshotFile": "iteration9.png",
+      "analysisFile": "iteration9_analysis.json"
+    },
+    {
+      "iteration": 10,
+      "codeFile": "iteration10.html",
+      "screenshotFile": "iteration10.png",
+      "analysisFile": "iteration10_analysis.json"
+    }
+  ]
+}

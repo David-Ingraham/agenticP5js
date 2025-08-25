@@ -1,0 +1,10 @@
+{
+  "success": true,
+  "score": 90,
+  "analysis": "**Score: 90/100**\n\n**Differences:**\n1. The white stripe separating the yellow and grey sections is too thick.\n2. The red stripe separating the white and black sections is too thick.\n3. The white rectangle in the top right is slightly too tall.\n\n\n**Instructions:**\n- Change the height of the white rectangle between yellow and grey from 17 to 8: `rect(0, 202, 174, 8);`\n- Change the height of the red rectangle between white and black from 17 to 8: `rect(174, 250, 87, 8);`\n- Change the height of the top-right white rectangle from 267 to 259: `rect(174, 0, 87, 259);`\n```html\n<!DOCTYPE html>\n<html>\n<head>\n    <script src=\"https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js\"></script>\n</head>\n<body>\n<script>\nfunction setup() {\n    createCanvas(261, 373);\n    noLoop();\n}\nfunction draw() {\n    fill('#FFCC00');\n    rect(0, 0, 174, 211);\n    fill('#FFFFFF');\n    rect(174, 0, 87, 259);\n    fill('#808080');\n    rect(0, 219, 174, 154);\n    fill('#FFFFFF');\n    rect(0, 211, 174, 8);\n    fill('#000000');\n    rect(174, 267, 87, 106);\n    fill('#FF0000');\n    rect(174, 259, 87, 8);\n\n}\n</script>\n</body>\n</html>\n```\n",
+  "instructions": [
+    "Change the height of the white rectangle between yellow and grey from 17 to 8: `rect(0, 202, 174, 8);`",
+    "Change the height of the red rectangle between white and black from 17 to 8: `rect(174, 250, 87, 8);`",
+    "Change the height of the top-right white rectangle from 267 to 259: `rect(174, 0, 87, 259);`"
+  ]
+}

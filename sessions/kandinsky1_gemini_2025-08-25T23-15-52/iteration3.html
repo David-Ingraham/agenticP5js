@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
+</head>
+<body>
+<script>
+function setup() {
+    createCanvas(643, 518);
+    noLoop();
+}
+function draw() {
+    background('#A7C4A3');
+
+    // Outermost purple circle
+    fill('#7F00FF');
+    stroke('#000000');
+    strokeWeight(3);
+    circle(120, 120, 200);
+
+    // Inner purple circles
+    fill('#A30B9A');
+    circle(120, 120, 140); 
+    fill('#DA0056');
+    circle(120, 120, 80);
+
+
+    fill('#A7C4A3'); // Match background to make it transparent
+    stroke('#000000');
+    strokeWeight(3);
+    triangle(290, 30, 530, 370, 100, 390);
+
+    // Adjust position and size of circles
+    let circleCenterX = 450;
+    let circleCenterY = 350;
+    let circleDiameter = 40;
+
+    // Blue Circle (full circle now)
+    fill('#0000FF');
+    circle(circleCenterX, circleCenterY, circleDiameter+5);
+
+    // Red semi-circle
+    fill('#FF0000');
+    stroke('#000000');
+    strokeWeight(3);
+    arc(circleCenterX - circleDiameter/4 , circleCenterY, circleDiameter, circleDiameter, 0, PI);
+
+
+    // Yellow circle
+    fill('#FFFF00');
+    circle(circleCenterX + circleDiameter/4, circleCenterY, circleDiameter); 
+
+    // White circle (partially obscured – needs further refinement later)
+    fill('#FFFFFF');
+    circle(circleCenterX + circleDiameter*0.75, circleCenterY, circleDiameter); 
+
+    // TODO: Add rectangle (red, purple, blue, yellow squares)
+    // TODO: Add lines across canvas
+    // TODO: Add green circle
+    // TODO: Add remaining circle/arc formations
+    // TODO: Add checkerboard rectangle
+
+}
+</script>
+</body>
+</html>

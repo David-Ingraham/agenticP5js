@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
+</head>
+<body>
+<script>
+function setup() {
+    createCanvas(643, 518);
+    noLoop();
+}
+function draw() {
+    background('#A7C4A3');
+
+    // Outermost purple circle
+    fill('#7F00FF');
+    stroke('#000000');
+    strokeWeight(3);
+    circle(180, 150, 280);
+
+    // Inner purple circles
+    fill('#A30B9A');
+    circle(180, 150, 196); 
+    fill('#DA0056');
+    circle(180, 150, 112); 
+
+
+    fill('#405E40'); // Darker green
+    stroke('#000000');
+    strokeWeight(1); // Thinner stroke
+    triangle(330, 50, 590, 420, 90, 420); // Adjusted position
+
+
+    let baseX = 430;
+    let baseY = 320;
+    let baseDiameter = 60;
+
+    // Blue Circle
+    fill('#0000FF');
+    circle(baseX, baseY, baseDiameter);
+
+    // Red semi-circle
+    fill('#FF0000');
+    arc(baseX - baseDiameter * 0.4, baseY , baseDiameter, baseDiameter, 0, PI);
+
+
+    // Yellow circle
+    fill('#FFFF00');
+    circle(baseX + baseDiameter * 0.5, baseY, baseDiameter * 0.9);
+
+    // White circle 
+    fill('#FFFFFF');
+    circle(baseX + baseDiameter * 0.3, baseY - baseDiameter * 0.3, baseDiameter * 0.6);
+
+    fill('#264E00'); // Dark green
+    circle(100, 460, 40);
+
+    let rectX = 500;
+    let rectY = 80;
+    let rectSize = 40;
+
+    fill('#FF0000');
+    rect(rectX, rectY, rectSize, rectSize);
+    fill('#7F00FF');
+    rect(rectX + rectSize, rectY, rectSize, rectSize);
+    fill('#FFFF00');
+    rect(rectX, rectY + rectSize, rectSize, rectSize);
+    fill('#0000FF');
+    rect(rectX + rectSize, rectY + rectSize, rectSize, rectSize);
+
+
+    stroke('#000000');
+    strokeWeight(3);
+    line(50, 250, 400, 200); 
+    line(580, 100, 200, 500);
+    line(0, 400, 300, 100);   
+
+}
+</script>
+</body>
+</html>

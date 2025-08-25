@@ -1,0 +1,10 @@
+{
+  "success": true,
+  "score": 70,
+  "analysis": "**Score: 70/100**\n\n**Differences:**\n1. Incorrect white stripe placement and dimensions: The white stripe in the target image is located entirely within the gray rectangle.  In the generated image, it overlaps the white rectangle on the right. Target dimensions are approximately 174px wide by 17px high, positioned at y = 219px.\n2. Incorrect gray rectangle height. The gray rectangle is too tall in the generated image. Target height is approximately 137px, not 154px.\n3. Incorrect white rectangle height. The white rectangle is too tall in the generated image. Target height is approximately 244px, not 261px.\n\n**Instructions:**\n- Change the fourth `rect()` function (white stripe) to: `rect(0, 219, 174, 17);`  This corrects the position and size of the white stripe.\n- Change the third `rect()` function (gray rectangle) to: `rect(0, 236, 174, 137);` This corrects the height and y-position of the gray rectangle.\n- Change the second `rect()` function (white rectangle) to: `rect(174, 0, 87, 244);` This corrects the height of the white rectangle.\n\n```html\n<!DOCTYPE html>\n<html>\n<head>\n    <script src=\"https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js\"></script>\n</head>\n<body>\n<script>\nfunction setup() {\n    createCanvas(261, 373);\n    noLoop();\n}\nfunction draw() {\n    fill('#FFCC00');\n    rect(0, 0, 174, 219);\n    fill('#FFFFFF');\n    rect(174, 0, 87, 244);\n    fill('#808080');\n    rect(0, 236, 174, 137);\n    fill('#FFFFFF');\n    rect(0, 219, 174, 17);\n    fill('#000000');\n    rect(174, 261, 87, 112);\n    fill('#FF0000');\n    rect(0, 356, 261, 17);\n\n}\n</script>\n</body>\n</html>\n\n```\n",
+  "instructions": [
+    "Change the fourth `rect()` function (white stripe) to: `rect(0, 219, 174, 17);`  This corrects the position and size of the white stripe.",
+    "Change the third `rect()` function (gray rectangle) to: `rect(0, 236, 174, 137);` This corrects the height and y-position of the gray rectangle.",
+    "Change the second `rect()` function (white rectangle) to: `rect(174, 0, 87, 244);` This corrects the height of the white rectangle."
+  ]
+}

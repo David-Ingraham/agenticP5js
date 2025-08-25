@@ -1,0 +1,27 @@
+{
+  "timestamp": "2025-08-25T23:00:12.162Z",
+  "sessionDir": "sessions/sample_target1_gemini_2025-08-25T22-59-24",
+  "targetImage": "sessions/sample_target1_gemini_2025-08-25T22-59-24/target.png",
+  "evaluationMethod": "gemini_visual_comparison",
+  "maxIterations": 10,
+  "targetScore": 95,
+  "results": {
+    "bestScore": 95,
+    "bestIteration": 2,
+    "targetReached": true
+  },
+  "iterations": [
+    {
+      "iteration": 1,
+      "codeFile": "iteration1.html",
+      "screenshotFile": "iteration1.png"
+    },
+    {
+      "iteration": 2,
+      "codeFile": "iteration2.html",
+      "screenshotFile": "iteration2.png",
+      "score": 90,
+      "analysisFile": "iteration2_analysis.json"
+    }
+  ]
+}

@@ -21,7 +21,7 @@ class FeedbackLoopTest {
         this.capture = new SketchCapture();
         
         this.maxIterations = 4;
-        this.targetScore = 7.0;
+        this.targetScore = 9.0;
     }
     
     /**
@@ -42,9 +42,11 @@ class FeedbackLoopTest {
             let previousFeedback = null;
             let bestScore = 0;
             let bestIteration = 1;
+            let currentIteration = 1;
             
             // Run iterations
             for (let iteration = 1; iteration <= this.maxIterations; iteration++) {
+                currentIteration = iteration;
                 console.log('\n' + '='.repeat(40));
                 console.log(`ITERATION ${iteration} of ${this.maxIterations}`);
                 console.log('='.repeat(40));
@@ -98,7 +100,7 @@ class FeedbackLoopTest {
                 
                 // Check if we should stop early
                 if (evaluation.score >= this.targetScore) {
-                    console.log(`\n🎉 TARGET SCORE REACHED! (${evaluation.score}/10 >= ${this.targetScore})`);
+                    console.log(`\nTARGET SCORE REACHED! (${evaluation.score}/10 >= ${this.targetScore})`);
                     console.log(`Stopping early at iteration ${iteration}`);
                     break;
                 }
@@ -120,12 +122,12 @@ class FeedbackLoopTest {
             console.log('='.repeat(60));
             console.log(`Best Score: ${bestScore}/10 (Iteration ${bestIteration})`);
             console.log(`Target Score: ${this.targetScore}/10`);
-            console.log(`Iterations Run: ${Math.min(iteration, this.maxIterations)}`);
+            console.log(`Iterations Run: ${currentIteration}`);
             
             if (bestScore >= this.targetScore) {
-                console.log('✅ SUCCESS: Target score achieved!');
+                console.log('SUCCESS: Target score achieved!');
             } else {
-                console.log('📈 PROGRESS: Improvement shown, target not reached');
+                console.log('PROGRESS: Improvement shown, target not reached');
             }
             
             // Create final session summary
@@ -240,9 +242,9 @@ async function runTest() {
         console.log('\nFeedback loop test completed!');
         console.log(`Results saved in: ${result.sessionDir}`);
         if (result.targetReached) {
-            console.log('🎯 Target score achieved!');
+            console.log('Target score achieved!');
         } else {
-            console.log(`📊 Best score: ${result.bestScore}/10`);
+            console.log(`Best score: ${result.bestScore}/10`);
         }
     } else {
         console.log('\nTest failed:', result.error);

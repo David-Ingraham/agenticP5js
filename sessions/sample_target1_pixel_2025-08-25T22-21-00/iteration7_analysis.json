@@ -1,0 +1,234 @@
+{
+  "targetStructure": {
+    "dimensions": {
+      "width": 261,
+      "height": 373
+    },
+    "regions": [
+      {
+        "color": "black",
+        "hex": "#191919",
+        "rgb": {
+          "r": 25,
+          "g": 25,
+          "b": 25
+        },
+        "bounds": {
+          "x": 0,
+          "y": 100,
+          "width": 260,
+          "height": 270
+        },
+        "area": 70200,
+        "pixelCount": 541
+      },
+      {
+        "color": "white",
+        "hex": "#F2F0F0",
+        "rgb": {
+          "r": 242,
+          "g": 240,
+          "b": 240
+        },
+        "bounds": {
+          "x": 5,
+          "y": 5,
+          "width": 250,
+          "height": 205
+        },
+        "area": 51250,
+        "pixelCount": 680
+      },
+      {
+        "color": "yellow",
+        "hex": "#F0B501",
+        "rgb": {
+          "r": 240,
+          "g": 181,
+          "b": 1
+        },
+        "bounds": {
+          "x": 5,
+          "y": 5,
+          "width": 180,
+          "height": 185
+        },
+        "area": 33300,
+        "pixelCount": 1406
+      },
+      {
+        "color": "gray",
+        "hex": "#A6A6A6",
+        "rgb": {
+          "r": 166,
+          "g": 166,
+          "b": 166
+        },
+        "bounds": {
+          "x": 0,
+          "y": 215,
+          "width": 185,
+          "height": 150
+        },
+        "area": 27750,
+        "pixelCount": 1173
+      },
+      {
+        "color": "black",
+        "hex": "#23211E",
+        "rgb": {
+          "r": 35,
+          "g": 33,
+          "b": 30
+        },
+        "bounds": {
+          "x": 0,
+          "y": 0,
+          "width": 255,
+          "height": 75
+        },
+        "area": 19125,
+        "pixelCount": 67
+      },
+      {
+        "color": "red",
+        "hex": "#C80710",
+        "rgb": {
+          "r": 200,
+          "g": 7,
+          "b": 16
+        },
+        "bounds": {
+          "x": 190,
+          "y": 195,
+          "width": 65,
+          "height": 15
+        },
+        "area": 975,
+        "pixelCount": 56
+      }
+    ]
+  },
+  "generatedStructure": {
+    "dimensions": {
+      "width": 261,
+      "height": 373
+    },
+    "regions": [
+      {
+        "color": "black",
+        "hex": "#0C0C0C",
+        "rgb": {
+          "r": 12,
+          "g": 12,
+          "b": 12
+        },
+        "bounds": {
+          "x": 0,
+          "y": 100,
+          "width": 260,
+          "height": 265
+        },
+        "area": 68900,
+        "pixelCount": 2493
+      },
+      {
+        "color": "black",
+        "hex": "#11100F",
+        "rgb": {
+          "r": 17,
+          "g": 16,
+          "b": 15
+        },
+        "bounds": {
+          "x": 0,
+          "y": 0,
+          "width": 250,
+          "height": 70
+        },
+        "area": 17500,
+        "pixelCount": 65
+      },
+      {
+        "color": "rgb(120,91,0)",
+        "hex": "#785B00",
+        "rgb": {
+          "r": 120,
+          "g": 91,
+          "b": 0
+        },
+        "bounds": {
+          "x": 5,
+          "y": 5,
+          "width": 175,
+          "height": 90
+        },
+        "area": 15750,
+        "pixelCount": 54
+      },
+      {
+        "color": "gray",
+        "hex": "#7F7F7F",
+        "rgb": {
+          "r": 127,
+          "g": 127,
+          "b": 127
+        },
+        "bounds": {
+          "x": 185,
+          "y": 0,
+          "width": 75,
+          "height": 200
+        },
+        "area": 15000,
+        "pixelCount": 95
+      },
+      {
+        "color": "yellow",
+        "hex": "#F0B501",
+        "rgb": {
+          "r": 240,
+          "g": 181,
+          "b": 1
+        },
+        "bounds": {
+          "x": 10,
+          "y": 10,
+          "width": 170,
+          "height": 85
+        },
+        "area": 14450,
+        "pixelCount": 630
+      },
+      {
+        "color": "white",
+        "hex": "#FFFFFF",
+        "rgb": {
+          "r": 255,
+          "g": 255,
+          "b": 255
+        },
+        "bounds": {
+          "x": 190,
+          "y": 10,
+          "width": 65,
+          "height": 190
+        },
+        "area": 12350,
+        "pixelCount": 546
+      }
+    ]
+  },
+  "instructions": [
+    "Fix #F2F0F0 rectangle: move to (5, 5) and resize to 250x205",
+    "Fix #F0B501 rectangle: move to (5, 5) and resize to 180x185",
+    "Fix #A6A6A6 rectangle: move to (0, 215) and resize to 185x150",
+    "Fix #23211E rectangle: move to (0, 0) and resize to 255x75"
+  ],
+  "score": 75,
+  "targetDimensions": {
+    "width": 261,
+    "height": 373,
+    "aspectRatio": 0.6997319034852547
+  }
+}

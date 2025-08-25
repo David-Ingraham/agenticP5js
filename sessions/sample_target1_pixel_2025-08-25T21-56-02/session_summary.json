@@ -1,0 +1,63 @@
+{
+  "timestamp": "2025-08-25T21:56:48.410Z",
+  "sessionDir": "sessions/sample_target1_pixel_2025-08-25T21-56-02",
+  "targetImage": "sessions/sample_target1_pixel_2025-08-25T21-56-02/target.png",
+  "evaluationMethod": "simplified_pixel_analysis",
+  "maxIterations": 4,
+  "targetScore": 95,
+  "results": {
+    "bestScore": 65,
+    "bestIteration": 1,
+    "targetReached": false
+  },
+  "iterations": [
+    {
+      "iteration": 1,
+      "score": 65,
+      "instructions": [
+        "Fix black rectangle: move to (0, 0) and resize to 260x360",
+        "Fix black rectangle: move to (0, 40) and resize to 260x300",
+        "Fix white rectangle: move to (20, 20) and resize to 220x180"
+      ],
+      "codeFile": "iteration1.html",
+      "screenshotFile": "iteration1.png",
+      "analysisFile": "iteration1_analysis.json"
+    },
+    {
+      "iteration": 2,
+      "score": 56,
+      "instructions": [
+        "Fix black rectangle: move to (0, 0) and resize to 260x360",
+        "Fix black rectangle: move to (0, 40) and resize to 260x300",
+        "Fix white rectangle: move to (20, 20) and resize to 220x180"
+      ],
+      "codeFile": "iteration2.html",
+      "screenshotFile": "iteration2.png",
+      "analysisFile": "iteration2_analysis.json"
+    },
+    {
+      "iteration": 3,
+      "score": 41,
+      "instructions": [
+        "Fix black rectangle: move to (0, 0) and resize to 260x360",
+        "Fix black rectangle: move to (0, 40) and resize to 260x300",
+        "Add white rectangle: rect(20, 20, 220, 180)"
+      ],
+      "codeFile": "iteration3.html",
+      "screenshotFile": "iteration3.png",
+      "analysisFile": "iteration3_analysis.json"
+    },
+    {
+      "iteration": 4,
+      "score": 56,
+      "instructions": [
+        "Fix black rectangle: move to (0, 0) and resize to 260x360",
+        "Fix black rectangle: move to (0, 40) and resize to 260x300",
+        "Fix white rectangle: move to (20, 20) and resize to 220x180"
+      ],
+      "codeFile": "iteration4.html",
+      "screenshotFile": "iteration4.png",
+      "analysisFile": "iteration4_analysis.json"
+    }
+  ]
+}

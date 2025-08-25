@@ -1,0 +1,21 @@
+{
+  "timestamp": "2025-08-25T21:12:17.431Z",
+  "sessionDir": "sessions/sample_target1_feedback_2025-08-25T21-12-09",
+  "targetImage": "sessions/sample_target1_feedback_2025-08-25T21-12-09/target.png",
+  "maxIterations": 4,
+  "targetScore": 7,
+  "results": {
+    "bestScore": 8,
+    "bestIteration": 1,
+    "targetReached": true
+  },
+  "iterations": [
+    {
+      "iteration": 1,
+      "score": 8,
+      "codeFile": "iteration1.html",
+      "screenshotFile": "iteration1.png",
+      "evaluationFile": "iteration1_evaluation.json"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
+</head>
+<body>
+<script>
+function setup() {
+    createCanvas(643, 518);
+    noLoop();
+}
+function draw() {
+    background('#A7C4A3');
+
+    fill('#7F00FF');
+    stroke('#000000');
+    strokeWeight(3);
+    circle(150, 150, 120); 
+
+    fill('#A30B9A');
+    circle(150, 150, 80);
+
+    fill('#DA0056');
+    circle(150, 150, 40);
+
+    fill('#A7C4A3'); // Match background to make it transparent
+    stroke('#000000');
+    strokeWeight(3);
+    triangle(350, 50, 500, 400, 200, 400);
+
+    // Red circle
+    fill('#FF0000');
+    stroke('#000000');
+    strokeWeight(3);
+    arc(400, 300, 50, 50, 0, PI);
+
+    // Blue Circle behind red
+    fill('#0000FF');
+    arc(400, 300, 60, 60, PI, TWO_PI);
+
+    // Yellow and white circles
+    fill('#FFFF00');
+    circle(430, 300, 50); 
+    fill('#FFFFFF');
+    circle(460, 300, 50);
+
+}
+</script>
+</body>
+</html>

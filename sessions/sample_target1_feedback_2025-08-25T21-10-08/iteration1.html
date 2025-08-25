@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Geometric Composition</title>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
+<script>
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+
+function draw() {
+  // Yellow
+  fill('#FFD700'); //Approximation of Golden Yellow
+  rect(0, 0, 200, 200);
+
+  // White
+  fill('white');
+  rect(200, 0, 200, 200);
+
+  // Grey
+  fill('#808080'); //Approximation of a mid-grey
+  rect(0, 200, 200, 100);
+
+  // Black
+  fill('black');
+  rect(200, 200, 200, 100);
+
+
+  //Thin White Lines
+  strokeWeight(2);
+  stroke('white');
+  line(200,0,200,200);
+  line(0,200,200,200);
+
+  //Red Line
+  strokeWeight(10);
+  stroke('#C00000');// approximation of dark red
+  line(200, 300, 400, 300);
+}
+</script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Attempt 3</title>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
+<script>
+let canvasWidth = 400;
+let canvasHeight = 400;
+
+function setup() {
+  createCanvas(canvasWidth, canvasHeight);
+  noLoop();
+}
+
+function draw() {
+  // Yellow
+  fill(255, 204, 0); 
+  rect(0, 0, canvasWidth/2, canvasHeight/2);
+
+  //Thin white line below yellow
+  fill(255);
+  rect(0, canvasHeight/2 -1, canvasWidth/2, 1);
+
+  //White
+  fill(255);
+  rect(canvasWidth/2, 0, canvasWidth/2, canvasHeight/2 -1);
+
+  //Grey
+  fill(150);
+  rect(0, canvasHeight/2, canvasWidth/2, canvasHeight/2);
+
+  //Black
+  fill(0);
+  rect(canvasWidth/2, canvasHeight/2, canvasWidth/2, canvasHeight/2);
+
+  //Thin black line between grey and black
+  fill(0);
+  rect(canvasWidth/2, canvasHeight/2 -1, canvasWidth/2, 1);
+
+  //Red line - corrected position
+  fill(200,0,0); 
+  rect(canvasWidth/2, canvasHeight/2 - 10, canvasWidth/2, 10);
+
+}
+</script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Attempt 1</title>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
+<style>
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f0f0;
+}
+canvas {
+  border: 1px solid black;
+}
+</style>
+</head>
+<body>
+<script>
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+
+function draw() {
+  // Yellow
+  fill(255, 204, 0); //Approximation of the yellow
+  rect(0, 0, 200, 200);
+
+  //White
+  fill(255);
+  rect(200, 0, 200, 200);
+
+  //Grey
+  fill(150,150,150); //Approximation of grey
+  rect(0, 200, 200, 200);
+
+  //Black
+  fill(0);
+  rect(200,200,200,200);
+
+  //Red
+  fill(200,0,0); //Approximation of dark red
+  rect(200, 180, 200, 20);
+
+  //White lines
+  stroke(255);
+  strokeWeight(2);
+  line(200,0,200,200);
+  line(0,200,400,200);
+}
+</script>
+</body>
+</html>

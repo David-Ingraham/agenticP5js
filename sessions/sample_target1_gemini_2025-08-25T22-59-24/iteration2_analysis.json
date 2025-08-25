@@ -1,0 +1,9 @@
+{
+  "success": true,
+  "score": 90,
+  "analysis": "**Score: 90/100**\n\n**Differences:**\n\n1. The yellow rectangle's dimensions are slightly off. It should be 174x206px, but currently, it is 174x249px.\n2. The grey rectangle's dimensions are slightly off. It should be 174x167px, but currently, it is 174x124px.\n3. The white stripe between the yellow and grey rectangles is too thick. It should be 43px tall, but it currently appears to be the same height as the red stripe.\n\n\n\n**Instructions:**\n\n- Change the yellow rectangle's height: `rect(0, 0, 174, 206)` instead of `rect(0, 0, 174, 249)`.\n- Change the grey rectangle's y-coordinate and height: `rect(0, 249, 174, 124)` should be `rect(0, 249, 174, 167)`.  The height needs to increase. Since the canvas height is fixed, moving the rectangle is not necessary, just correcting its height. This also fixes the white stripe height. Don't change the white stripe's dimensions directly.\n\n```javascript\nfunction setup() {\n    createCanvas(261, 373);\n    noLoop();\n}\nfunction draw() {\n    fill('#FFCC00');\n    rect(0, 0, 174, 206); // Corrected height\n    fill('#FFFFFF');\n    rect(174, 0, 87, 206);\n    fill('#808080');\n    rect(0, 249, 174, 167); // Corrected height\n    fill('#FFFFFF');\n    rect(0, 206, 174, 43); \n    fill('#000000');\n    rect(174, 249, 87, 124);\n    fill('#FF0000');\n    rect(174, 206, 87, 43);\n}\n```\n",
+  "instructions": [
+    "Change the yellow rectangle's height: `rect(0, 0, 174, 206)` instead of `rect(0, 0, 174, 249)`.",
+    "Change the grey rectangle's y-coordinate and height: `rect(0, 249, 174, 124)` should be `rect(0, 249, 174, 167)`.  The height needs to increase. Since the canvas height is fixed, moving the rectangle is not necessary, just correcting its height. This also fixes the white stripe height. Don't change the white stripe's dimensions directly."
+  ]
+}

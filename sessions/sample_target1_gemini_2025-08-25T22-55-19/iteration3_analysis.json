@@ -1,0 +1,10 @@
+{
+  "success": true,
+  "score": 95,
+  "analysis": "**Score: 95/100**\n\n**Differences:**\n1. White rectangle height: The white rectangle on the right is slightly too short by about 7 pixels. It should be 251px tall, currently it's 244px.\n2. Gray rectangle height: The gray rectangle is too short by about 7 pixels. It should be 144px tall, currently it's 137px.\n3. Yellow and gray rectangle placement: Both the yellow and gray rectangles should extend fully to the bottom edge of the white horizontal stripe. They are currently about 1 pixel short.\n\n**Instructions:**\n- Change the second `rect()` function (white rectangle) to: `rect(174, 0, 87, 251);`  This corrects the height of the white rectangle.\n- Change the third `rect()` function (gray rectangle) to: `rect(0, 235, 174, 144);` This corrects the height and starting y-position of the gray rectangle by 7 pixels. This adjustment takes into account the correct y-position based on the other element changes.\n- Change the first `rect()` function (yellow rectangle) to: `rect(0, 0, 174, 235);` This extends the yellow rectangle to meet the corrected white stripe.",
+  "instructions": [
+    "Change the second `rect()` function (white rectangle) to: `rect(174, 0, 87, 251);`  This corrects the height of the white rectangle.",
+    "Change the third `rect()` function (gray rectangle) to: `rect(0, 235, 174, 144);` This corrects the height and starting y-position of the gray rectangle by 7 pixels. This adjustment takes into account the correct y-position based on the other element changes.",
+    "Change the first `rect()` function (yellow rectangle) to: `rect(0, 0, 174, 235);` This extends the yellow rectangle to meet the corrected white stripe."
+  ]
+}

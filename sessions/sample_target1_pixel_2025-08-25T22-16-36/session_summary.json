@@ -1,0 +1,64 @@
+{
+  "timestamp": "2025-08-25T22:17:14.981Z",
+  "sessionDir": "sessions/sample_target1_pixel_2025-08-25T22-16-36",
+  "targetImage": "sessions/sample_target1_pixel_2025-08-25T22-16-36/target.png",
+  "evaluationMethod": "simplified_pixel_analysis",
+  "maxIterations": 4,
+  "targetScore": 95,
+  "results": {
+    "bestScore": 85,
+    "bestIteration": 2,
+    "targetReached": false
+  },
+  "iterations": [
+    {
+      "iteration": 1,
+      "score": 65,
+      "instructions": [
+        "Fix #191919 rectangle: move to (0, 100) and resize to 260x270",
+        "Fix #F2F0F0 rectangle: move to (5, 5) and resize to 250x205",
+        "Fix #F0B501 rectangle: move to (5, 5) and resize to 180x185",
+        "Fix #A6A6A6 rectangle: move to (0, 215) and resize to 185x150"
+      ],
+      "codeFile": "iteration1.html",
+      "screenshotFile": "iteration1.png",
+      "analysisFile": "iteration1_analysis.json"
+    },
+    {
+      "iteration": 2,
+      "score": 85,
+      "instructions": [
+        "Fix #F0B501 rectangle: move to (5, 5) and resize to 180x185",
+        "Fix #A6A6A6 rectangle: move to (0, 215) and resize to 185x150",
+        "Fix #23211E rectangle: move to (0, 0) and resize to 255x75"
+      ],
+      "codeFile": "iteration2.html",
+      "screenshotFile": "iteration2.png",
+      "analysisFile": "iteration2_analysis.json"
+    },
+    {
+      "iteration": 3,
+      "score": 70,
+      "instructions": [
+        "Fix #191919 rectangle: move to (0, 100) and resize to 260x270",
+        "Fix #F0B501 rectangle: move to (5, 5) and resize to 180x185",
+        "Fix #A6A6A6 rectangle: move to (0, 215) and resize to 185x150"
+      ],
+      "codeFile": "iteration3.html",
+      "screenshotFile": "iteration3.png",
+      "analysisFile": "iteration3_analysis.json"
+    },
+    {
+      "iteration": 4,
+      "score": 85,
+      "instructions": [
+        "Fix #F0B501 rectangle: move to (5, 5) and resize to 180x185",
+        "Fix #A6A6A6 rectangle: move to (0, 215) and resize to 185x150",
+        "Fix #23211E rectangle: move to (0, 0) and resize to 255x75"
+      ],
+      "codeFile": "iteration4.html",
+      "screenshotFile": "iteration4.png",
+      "analysisFile": "iteration4_analysis.json"
+    }
+  ]
+}
