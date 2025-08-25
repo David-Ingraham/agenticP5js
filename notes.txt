@@ -1,0 +1,10 @@
+save every code file the agent create along with a screenshot, so long as the code compliies and the image is not empty. the agent shoudl 
+be prompted to itterate untill i thinks it has a good image. it will know that its final image output wil be jsuged by another ai just on its visual 
+differecne to the objective. 
+
+
+things to vary between studies.
+
+
+how much does the agent know baout the process?
+the similarity scroe threshold 

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test P5.js Sketch</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        #sketch-container {
+            border: 1px solid #ccc;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Sketch - Simple Geometric Shapes</h1>
+    <div id="sketch-container"></div>
+    
+    <script>
+        function setup() {
+            let canvas = createCanvas(400, 400);
+            canvas.parent('sketch-container');
+            noLoop(); // Static image for testing
+        }
+        
+        function draw() {
+            background(240);
+            
+            // Simple geometric composition (Mondrian-style)
+            fill(255, 0, 0); // Red
+            rect(50, 50, 100, 150);
+            
+            fill(0, 0, 255); // Blue
+            rect(200, 100, 120, 80);
+            
+            fill(255, 255, 0); // Yellow
+            rect(300, 250, 80, 100);
+            
+            // Black lines
+            stroke(0);
+            strokeWeight(4);
+            line(0, 200, 400, 200);
+            line(170, 0, 170, 400);
+            line(320, 0, 320, 400);
+            
+            noStroke();
+            
+            // White rectangles
+            fill(255);
+            rect(170, 50, 130, 50);
+            rect(50, 250, 120, 100);
+        }
+    </script>
+</body>
+</html>
