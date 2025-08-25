@@ -1,0 +1,51 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mondrian Recreation</title>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
+<script>
+let yellow = color(255, 204, 0);
+let grey = color(160, 160, 160); //Adjusted grey color
+let red = color(204, 0, 0);
+let black = color(0,0,0);
+
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+  background(255);
+
+  // Yellow Rectangle
+  fill(yellow);
+  rect(0, 0, 200, 200);
+
+  // White Rectangles
+  fill(255);
+  rect(200, 0, 200, 190); //Top White
+  rect(0, 180, 200, 20); //Horizontal White
+
+  // Grey Rectangle
+  fill(grey);
+  rect(0, 200, 200, 200);
+
+  // Black Rectangle
+  fill(black);
+  rect(200, 200, 200, 200);
+
+  // Red Rectangle
+  fill(red);
+  rect(200, 180, 200, 20);
+
+  //Black Lines for separation
+  fill(0);
+  rect(200, 0, 10, 400); //Vertical Black Line
+  rect(0, 180, 400, 10); //Horizontal Black Line
+
+
+}
+</script>
+</head>
+<body>
+</body>
+</html>
+```

@@ -1,0 +1,56 @@
+Attempt 1:
+
+Here's the HTML file with embedded P5.js code for the first attempt at recreating the image.  I've made estimations on the color values and proportions.  Further feedback will allow for refinement.
+
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mondrian Recreation</title>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
+<script>
+let yellow = color(255, 204, 0);
+let grey = color(128,128,128);
+let red = color(204,0,0);
+
+
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+  background(255);
+
+
+  // Yellow Rectangle
+  fill(yellow);
+  rect(0, 0, 200, 200);
+
+  //White Rectangle
+  fill(255);
+  rect(200, 0, 200, 200);
+
+  //Grey Rectangle
+  fill(grey);
+  rect(0, 200, 200, 200);
+
+  //Black Rectangle
+  fill(0);
+  rect(200, 200, 200, 200);
+
+  //Red line
+  fill(red);
+  rect(200, 180, 200, 20);
+
+  //White lines
+  fill(255);
+  rect(200, 0, 200, 10);
+  rect(200, 190, 200, 10);
+}
+</script>
+</head>
+<body>
+</body>
+</html>
+```
+
+This code creates a basic representation.  The next iteration will focus on improving color accuracy and adjusting the proportions of the rectangles and lines to better match the target image.  I've used approximations for color values and sizes, which will need to be refined based on feedback.

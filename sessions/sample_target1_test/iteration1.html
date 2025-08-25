@@ -1,0 +1,48 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mondrian Recreation</title>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
+<script>
+let canvasWidth = 400;
+let canvasHeight = 400;
+
+function setup() {
+  createCanvas(canvasWidth, canvasHeight);
+  noLoop(); // Draw once
+}
+
+function draw() {
+  // Yellow rectangle
+  fill(255, 204, 0); // Approximated yellow color
+  rect(0, 0, canvasWidth / 2, canvasHeight / 2);
+
+  // White rectangle
+  fill(255);
+  rect(canvasWidth / 2, 0, canvasWidth / 2, canvasHeight / 2);
+
+  // Grey rectangle
+  fill(128, 128, 128); // Grey
+  rect(0, canvasHeight / 2, canvasWidth / 2, canvasHeight / 2);
+
+
+  //Black rectangle
+  fill(0);
+  rect(canvasWidth / 2, canvasHeight / 2, canvasWidth / 2, canvasHeight / 2);
+
+  //White line
+  fill(255);
+  rect(canvasWidth/2, canvasHeight/4, canvasWidth/2, 10);
+
+
+  //Red line
+  fill(200,0,0); //Darker Red for better contrast
+  rect(canvasWidth/2, canvasHeight/2 -10, canvasWidth/2, 10);
+}
+</script>
+</head>
+<body>
+</body>
+</html>
+```

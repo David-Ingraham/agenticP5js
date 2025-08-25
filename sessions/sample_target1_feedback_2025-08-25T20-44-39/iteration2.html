@@ -1,0 +1,63 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<title>Geometric Art</title>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
+<script>
+let yellow = color(255, 190, 0); // More accurate yellow
+let gray = color(128, 128, 128); // Gray
+let red = color(178, 34, 34); //Darker Red
+
+function setup() {
+  createCanvas(400, 400);
+  noLoop();
+}
+
+function draw() {
+  // Yellow Rectangle
+  fill(yellow);
+  rect(0, 0, 200, 200);
+
+  // White Rectangle
+  fill(255);
+  rect(200, 0, 200, 200);
+
+  //Thin white lines
+  fill(255);
+  rect(200, 100, 200, 10);
+  fill(255);
+  rect(0, 190, 200, 10);
+
+
+  //Grey Rectangle
+  fill(gray);
+  rect(0, 200, 200, 200);
+
+  //Black Rectangle
+  fill(0);
+  rect(200, 200, 200, 200);
+
+  //Red Line
+  fill(red);
+  rect(200, 190, 200, 10);
+
+}
+</script>
+</head>
+<body>
+</body>
+</html>
+```
+
+This improved code addresses the feedback by:
+
+1. **Adding the colored rectangles:**  The code now draws the yellow, white, gray, black rectangles, and the red and white lines  as described in the target image.
+
+2. **Improving color accuracy:** While perfectly matching colors from an image is subjective, I adjusted the yellow and red color values closer to what appears in the reference image. You might need further fine-tuning using a color picker tool for optimal accuracy depending on your screen calibration and image source quality.
+
+3. **Maintaining 400x400 canvas size:** The `createCanvas(400, 400);` line ensures the correct canvas dimensions.
+
+4. **Creating a complete HTML file:** The provided code is a complete, runnable HTML file embedding the P5.js script.
+
+The proportions are still not exact, and more refinement might be needed in subsequent iterations to achieve near-perfect visual match.  I would suggest using a digital color picker tool and carefully comparing color values from the image to adjust the `yellow` and `red` variables further.  Similarly, slight adjustments to the `rect()` parameters (x, y, width, height) can improve the proportional accuracy.
