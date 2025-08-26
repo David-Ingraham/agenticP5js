@@ -307,5 +307,3 @@ CREATE TABLE user_evaluations (
 - **Academic Collaboration**: Share findings with research community
 
 ---
-
-This playground will serve as both an engaging demonstration of AI art generation capabilities and a valuable research platform for understanding how different evaluation techniques affect creative AI performance. The interactive nature will make complex AI concepts accessible to a broad audience while providing serious researchers with powerful experimentation tools.
