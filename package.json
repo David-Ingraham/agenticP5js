@@ -1,20 +1,39 @@
 {
-  "name": "agenticartist",
+  "name": "agentic-p5js-art-generator",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "An autonomous system that uses AI to iteratively generate P5.js code to recreate target images through visual feedback loops",
+  "main": "universalOrchestrator.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node webAPI.js",
+    "dev": "nodemon webAPI.js",
+    "server": "node utils/server.js",
+    "test-universal": "node universalOrchestrator.js",
+    "test-gemini": "node gemini_only_orchestrator.js",
+    "test-dual": "node utils/test_feedback_loop.js"
   },
-  "keywords": [],
+  "keywords": [
+    "ai",
+    "art",
+    "p5js",
+    "generative",
+    "creative-coding",
+    "computer-vision",
+    "machine-learning"
+  ],
   "author": "",
-  "license": "ISC",
-  "description": "",
+  "license": "MIT",
   "dependencies": {
-    "axios": "^1.11.0",
-    "dotenv": "^17.2.1",
-    "express": "^5.1.0",
-    "playwright": "^1.55.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1",
     "puppeteer-core": "^24.17.0",
-    "sharp": "^0.34.3"
+    "sharp": "^0.32.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   }
 }

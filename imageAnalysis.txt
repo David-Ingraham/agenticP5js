@@ -1,0 +1,21 @@
+1. Structural Similarity (SSIM)
+ON: Use SSIM scoring for luminance, contrast, and structure matching
+OFF: Skip structural analysis
+Purpose: Catch layout and brightness issues that LLM might miss
+2. Perceptual Distance (LPIPS)
+ON: Apply deep learning-based perceptual similarity scoring
+OFF: Rely on traditional metrics only
+Purpose: Human-like visual perception evaluation
+3. Color Palette Analysis
+ON: Extract and match dominant colors between target and generated
+OFF: Skip color distribution analysis
+Purpose: Ensure color accuracy beyond just individual pixel matching
+4. Edge Detection Similarity
+ON: Compare structural edge patterns and line work
+OFF: Skip edge-based analysis
+Purpose: Focus on shape accuracy and line quality
+5. Composition Balance Analysis
+ON: Evaluate visual weight distribution and rule-of-thirds compliance
+OFF: Skip compositional analysis
+Purpose: Assess artistic composition quality
+Implementation Strategy

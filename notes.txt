@@ -8,3 +8,13 @@ things to vary between studies.
 
 how much does the agent know baout the process?
 the similarity scroe threshold 
+
+
+user cna change prompts for eithe rmodel but are restricted to a certain number of charecters 
+
+
+the scond llm would only give three changes as feedback as of now, we need it to list every difference. 
+
+designing the defeault prompts 
+
+

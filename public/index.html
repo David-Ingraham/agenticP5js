@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Art Generation Playground</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            padding: 30px;
+        }
+
+        .upload-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 2px dashed #dee2e6;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .upload-section.dragover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .upload-section input[type="file"] {
+            display: none;
+        }
+
+        .upload-button {
+            background: #667eea;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .upload-button:hover {
+            background: #5a6fd8;
+        }
+
+        .preview-image {
+            max-width: 200px;
+            max-height: 200px;
+            margin: 20px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .controls-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .control-group {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .control-group h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .toggle-group {
+            display: flex;
+            background: #e9ecef;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .toggle-option {
+            flex: 1;
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .toggle-option.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .slider-container {
+            margin-bottom: 15px;
+        }
+
+        .slider-container label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #ddd;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            border: none;
+        }
+
+        .value-display {
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .generate-button {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            margin-bottom: 30px;
+        }
+
+        .generate-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .generate-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress-section {
+            display: none;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .status-text {
+            color: #555;
+            font-weight: 500;
+        }
+
+        .results-section {
+            display: none;
+        }
+
+        .iterations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .iteration-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+
+        .iteration-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .iteration-card.best {
+            border: 2px solid #28a745;
+        }
+
+        .iteration-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .iteration-info {
+            font-size: 0.9em;
+        }
+
+        .score {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1em;
+        }
+
+        .comparison-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .comparison-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .comparison-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .controls-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AI Art Generation Playground</h1>
+            <p>Compare self-evaluation vs external critique in AI art generation</p>
+        </div>
+
+        <div class="main-content">
+            <div class="error-message" id="errorMessage"></div>
+            <div class="success-message" id="successMessage"></div>
+
+            <!-- Upload Section -->
+            <div class="upload-section" id="uploadSection">
+                <h2>Upload Target Image</h2>
+                <p>Choose an image for the AI to recreate using P5.js</p>
+                <input type="file" id="fileInput" accept="image/*">
+                <button class="upload-button" onclick="document.getElementById('fileInput').click()">
+                    Choose Image
+                </button>
+                <div id="imagePreview"></div>
+            </div>
+
+            <!-- Controls Section -->
+            <div class="controls-section">
+                <div class="control-group">
+                    <h3>Evaluation Mode</h3>
+                    <div class="toggle-group">
+                        <button class="toggle-option active" data-mode="self">
+                            Gemini Self-Feedback
+                        </button>
+                        <button class="toggle-option" data-mode="dual">
+                            Gemini + Second LLM
+                        </button>
+                    </div>
+                    <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
+                        <span id="modeDescription">
+                            Gemini evaluates and improves its own generated code
+                        </span>
+                    </p>
+                </div>
+
+                <div class="control-group">
+                    <h3>Generation Settings</h3>
+                    <div class="slider-container">
+                        <label for="iterationsSlider">
+                            Max Iterations: <span class="value-display" id="iterationsValue">5</span>
+                        </label>
+                        <input type="range" id="iterationsSlider" class="slider" 
+                               min="1" max="7" value="5">
+                    </div>
+                    <div class="slider-container">
+                        <label for="targetSlider">
+                            Target Score: <span class="value-display" id="targetValue">15</span>/20
+                        </label>
+                        <input type="range" id="targetSlider" class="slider" 
+                               min="1" max="20" value="15">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generate Button -->
+            <button class="generate-button" id="generateButton" disabled>
+                Upload an image to start generation
+            </button>
+
+            <!-- Progress Section -->
+            <div class="progress-section" id="progressSection">
+                <h3>Generation Progress</h3>
+                <div class="progress-info">
+                    <span class="status-text" id="statusText">Initializing...</span>
+                    <span id="progressText">0/5</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div id="currentIteration"></div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section" id="resultsSection">
+                <h3>Results</h3>
+                <div class="comparison-section">
+                    <div class="comparison-card">
+                        <h4>Target Image</h4>
+                        <img id="targetImageDisplay" class="comparison-image" alt="Target Image">
+                    </div>
+                    <div class="comparison-card">
+                        <h4>Best Generated Result</h4>
+                        <img id="bestResultDisplay" class="comparison-image" alt="Best Result">
+                        <p>Score: <span id="finalScore" class="score">-</span>/20</p>
+                    </div>
+                </div>
+                
+                <div class="iterations-grid" id="iterationsGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let selectedFile = null;
+        let currentSessionId = null;
+        let currentConfig = {
+            evaluationMode: 'self',
+            maxIterations: 5,
+            targetScore: 15
+        };
+
+        // Initialize event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeEventListeners();
+        });
+
+        function initializeEventListeners() {
+            // File upload
+            const fileInput = document.getElementById('fileInput');
+            const uploadSection = document.getElementById('uploadSection');
+            
+            fileInput.addEventListener('change', handleFileSelect);
+            
+            // Drag and drop
+            uploadSection.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadSection.classList.add('dragover');
+            });
+            
+            uploadSection.addEventListener('dragleave', () => {
+                uploadSection.classList.remove('dragover');
+            });
+            
+            uploadSection.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadSection.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    handleFile(files[0]);
+                }
+            });
+
+            // Evaluation mode toggles
+            document.querySelectorAll('.toggle-option').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('.toggle-option').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentConfig.evaluationMode = this.dataset.mode;
+                    updateModeDescription();
+                });
+            });
+
+            // Sliders
+            const iterationsSlider = document.getElementById('iterationsSlider');
+            const targetSlider = document.getElementById('targetSlider');
+            
+            iterationsSlider.addEventListener('input', function() {
+                document.getElementById('iterationsValue').textContent = this.value;
+                currentConfig.maxIterations = parseInt(this.value);
+            });
+            
+            targetSlider.addEventListener('input', function() {
+                document.getElementById('targetValue').textContent = this.value;
+                currentConfig.targetScore = parseInt(this.value);
+            });
+
+            // Generate button
+            document.getElementById('generateButton').addEventListener('click', startGeneration);
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            handleFile(file);
+        }
+
+        function handleFile(file) {
+            if (!file || !file.type.startsWith('image/')) {
+                showError('Please select a valid image file');
+                return;
+            }
+
+            selectedFile = file;
+            
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('imagePreview');
+                preview.innerHTML = `<img src="${e.target.result}" class="preview-image" alt="Preview">`;
+            };
+            reader.readAsDataURL(file);
+
+            // Enable generate button
+            const generateButton = document.getElementById('generateButton');
+            generateButton.disabled = false;
+            generateButton.textContent = 'Start Generation';
+
+            hideError();
+        }
+
+        function updateModeDescription() {
+            const descriptions = {
+                'self': 'Gemini evaluates and improves its own generated code',
+                'dual': 'Gemini generates code, second LLM provides critique and feedback'
+            };
+            document.getElementById('modeDescription').textContent = descriptions[currentConfig.evaluationMode];
+        }
+
+        async function startGeneration() {
+            if (!selectedFile) {
+                showError('Please select an image first');
+                return;
+            }
+
+            try {
+                // Create FormData
+                const formData = new FormData();
+                formData.append('targetImage', selectedFile);
+                formData.append('maxIterations', currentConfig.maxIterations);
+                formData.append('targetScore', currentConfig.targetScore);
+                formData.append('evaluationMode', currentConfig.evaluationMode);
+
+                // Create session
+                showStatus('Creating session...', 'info');
+                const response = await fetch('/api/sessions/create', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Failed to create session: ${response.statusText}`);
+                }
+
+                const sessionData = await response.json();
+                currentSessionId = sessionData.sessionId;
+
+                // Start generation
+                const startResponse = await fetch(`/api/sessions/${currentSessionId}/start`, {
+                    method: 'POST'
+                });
+
+                if (!startResponse.ok) {
+                    throw new Error(`Failed to start generation: ${startResponse.statusText}`);
+                }
+
+                // Show progress section
+                document.getElementById('progressSection').style.display = 'block';
+                document.getElementById('generateButton').disabled = true;
+                document.getElementById('generateButton').textContent = 'Generation in Progress...';
+
+                // Start monitoring progress
+                monitorProgress();
+
+            } catch (error) {
+                showError(`Generation failed: ${error.message}`);
+                console.error('Generation error:', error);
+            }
+        }
+
+        async function monitorProgress() {
+            if (!currentSessionId) return;
+
+            try {
+                const response = await fetch(`/api/sessions/${currentSessionId}/progress`);
+                
+                if (!response.ok) {
+                    throw new Error(`Failed to get progress: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                updateProgressDisplay(data);
+
+                // Continue monitoring if not complete
+                if (data.status === 'running') {
+                    setTimeout(monitorProgress, 2000); // Poll every 2 seconds
+                } else if (data.status === 'completed') {
+                    showResults();
+                } else if (data.status === 'failed') {
+                    showError('Generation failed. Please try again.');
+                    resetInterface();
+                }
+
+            } catch (error) {
+                console.error('Progress monitoring error:', error);
+                showError('Failed to monitor progress');
+            }
+        }
+
+        function updateProgressDisplay(data) {
+            const progress = data.progress;
+            const statusText = document.getElementById('statusText');
+            const progressText = document.getElementById('progressText');
+            const progressFill = document.getElementById('progressFill');
+            const currentIteration = document.getElementById('currentIteration');
+
+            // Update progress bar
+            const percentage = (progress.currentIteration / progress.totalIterations) * 100;
+            progressFill.style.width = `${percentage}%`;
+
+            // Update text
+            progressText.textContent = `${progress.currentIteration}/${progress.totalIterations}`;
+            
+            if (progress.currentIteration > 0) {
+                statusText.textContent = `Iteration ${progress.currentIteration} - Best Score: ${progress.bestScore}/20`;
+            } else {
+                statusText.textContent = 'Starting generation...';
+            }
+
+            // Show current iteration info
+            if (progress.iterations && progress.iterations.length > 0) {
+                const latest = progress.iterations[progress.iterations.length - 1];
+                currentIteration.innerHTML = `
+                    <p><strong>Latest:</strong> Iteration ${latest.iteration} - Score: ${latest.score}/20</p>
+                    <p><small>${latest.feedback}</small></p>
+                `;
+            }
+        }
+
+        async function showResults() {
+            try {
+                const response = await fetch(`/api/sessions/${currentSessionId}/results`);
+                
+                if (!response.ok) {
+                    throw new Error(`Failed to get results: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                displayResults(data);
+
+                // Hide progress, show results
+                document.getElementById('progressSection').style.display = 'none';
+                document.getElementById('resultsSection').style.display = 'block';
+
+                showSuccess(`Generation completed! Best score: ${data.progress.bestScore}/20`);
+                resetInterface();
+
+            } catch (error) {
+                console.error('Results error:', error);
+                showError('Failed to load results');
+            }
+        }
+
+        function displayResults(data) {
+            const progress = data.progress;
+            
+            // Update final score
+            document.getElementById('finalScore').textContent = progress.bestScore;
+
+            // Show target image
+            const targetImageDisplay = document.getElementById('targetImageDisplay');
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                targetImageDisplay.src = e.target.result;
+            };
+            reader.readAsDataURL(selectedFile);
+
+            // Show best result
+            if (data.files && data.files.sessionDirectory) {
+                const bestImageUrl = `/api/sessions/${currentSessionId}/files/iteration${progress.bestIteration}.png`;
+                document.getElementById('bestResultDisplay').src = bestImageUrl;
+            }
+
+            // Create iterations grid
+            const iterationsGrid = document.getElementById('iterationsGrid');
+            iterationsGrid.innerHTML = '';
+
+            if (progress.iterations) {
+                progress.iterations.forEach(iteration => {
+                    const card = document.createElement('div');
+                    card.className = `iteration-card ${iteration.iteration === progress.bestIteration ? 'best' : ''}`;
+                    
+                    const imageUrl = `/api/sessions/${currentSessionId}/files/iteration${iteration.iteration}.png`;
+                    
+                    card.innerHTML = `
+                        <img src="${imageUrl}" class="iteration-image" alt="Iteration ${iteration.iteration}">
+                        <div class="iteration-info">
+                            <p><strong>Iteration ${iteration.iteration}</strong></p>
+                            <p class="score">${iteration.score}/20</p>
+                            ${iteration.iteration === progress.bestIteration ? '<p style="color: #28a745; font-weight: bold;">BEST</p>' : ''}
+                        </div>
+                    `;
+                    
+                    iterationsGrid.appendChild(card);
+                });
+            }
+        }
+
+        function resetInterface() {
+            document.getElementById('generateButton').disabled = false;
+            document.getElementById('generateButton').textContent = 'Start New Generation';
+            currentSessionId = null;
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            
+            // Hide success message
+            document.getElementById('successMessage').style.display = 'none';
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.getElementById('successMessage');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+            
+            // Hide error message
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        function hideError() {
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        function showStatus(message, type) {
+            if (type === 'error') {
+                showError(message);
+            } else {
+                showSuccess(message);
+            }
+        }
+    </script>
+</body>
+</html>

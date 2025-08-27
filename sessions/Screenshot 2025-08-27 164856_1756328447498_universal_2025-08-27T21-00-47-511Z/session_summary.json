@@ -1,0 +1,57 @@
+{
+  "timestamp": "2025-08-27T21:03:13.241Z",
+  "sessionDir": "sessions/Screenshot 2025-08-27 164856_1756328447498_universal_2025-08-27T21-00-47-511Z",
+  "targetImage": "sessions/Screenshot 2025-08-27 164856_1756328447498_universal_2025-08-27T21-00-47-511Z/target.png",
+  "evaluationMethod": "self",
+  "maxIterations": 5,
+  "targetScore": 15,
+  "results": {
+    "bestScore": 10,
+    "bestIteration": 1,
+    "totalIterations": 5,
+    "targetReached": false
+  },
+  "config": {
+    "evaluationMode": "self",
+    "maxIterations": 5,
+    "targetScore": 15,
+    "customPrompts": {}
+  },
+  "iterations": [
+    {
+      "iteration": 1,
+      "codeFile": "iteration1.html",
+      "screenshotFile": "iteration1.png",
+      "score": 10,
+      "evaluationFile": "iteration1_evaluation.json"
+    },
+    {
+      "iteration": 2,
+      "codeFile": "iteration2.html",
+      "screenshotFile": "iteration2.png",
+      "score": 10,
+      "evaluationFile": "iteration2_evaluation.json"
+    },
+    {
+      "iteration": 3,
+      "codeFile": "iteration3.html",
+      "screenshotFile": "iteration3.png",
+      "score": 10,
+      "evaluationFile": "iteration3_evaluation.json"
+    },
+    {
+      "iteration": 4,
+      "codeFile": "iteration4.html",
+      "screenshotFile": "iteration4.png",
+      "score": 10,
+      "evaluationFile": "iteration4_evaluation.json"
+    },
+    {
+      "iteration": 5,
+      "codeFile": "iteration5.html",
+      "screenshotFile": "iteration5.png",
+      "score": 10,
+      "evaluationFile": "iteration5_evaluation.json"
+    }
+  ]
+}

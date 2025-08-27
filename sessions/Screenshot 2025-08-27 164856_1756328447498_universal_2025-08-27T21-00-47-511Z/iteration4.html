@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
+</head>
+<body>
+<script>
+function setup() {
+    createCanvas(520, 522);
+    noLoop();
+}
+function draw() {
+    background('#2196F3');
+    fill('#FFC107');
+    rect(100, 0, 320, 50);
+    fill('#D35400');
+    quad(0, 418, 130, 418, 130, 522, 0, 522);
+    fill('#FFFFFF');
+    triangle(130, 50, 260, 220, 130, 230);
+    fill('#2196F3');
+    quad(130, 50, 270, 50, 270, 230, 130, 230);
+    fill('#FFC107');
+    quad(270, 50, 420, 50, 420, 280, 270, 280);    
+    fill('#009688');
+    quad(0, 418, 520, 418, 520, 522, 0, 522);
+    fill('#D35400');
+    ellipse(195, 140, 20, 20);
+}
+</script>
+</body>
+</html>
