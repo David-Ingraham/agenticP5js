@@ -1,0 +1,6 @@
+{
+  "score": 4,
+  "feedback": "**Similarity Score: 2**\n\n**Differences:**\n\n* Remove face and hat from image\n* Remove green and brown floor from image\n* Change composition to feature geometric shapes instead of portrait",
+  "timestamp": "2025-08-27T21:41:09.949Z",
+  "evaluationMethod": "groq_llm"
+}

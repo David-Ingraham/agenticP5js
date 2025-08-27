@@ -68,7 +68,8 @@ app.post('/api/sessions/create', upload.single('targetImage'), async (req, res) 
             maxIterations: parseInt(req.body.maxIterations) || 5,
             targetScore: parseInt(req.body.targetScore) || 15,
             evaluationMode: req.body.evaluationMode || 'self',
-            customPrompts: req.body.customPrompts ? JSON.parse(req.body.customPrompts) : {}
+            customPrompt: req.body.customPrompt || '',
+            customEvalPrompt: req.body.customEvalPrompt || ''
         };
 
         // Validate configuration
@@ -80,6 +81,12 @@ app.post('/api/sessions/create', upload.single('targetImage'), async (req, res) 
         }
         if (!['self', 'dual'].includes(config.evaluationMode)) {
             return res.status(400).json({ error: 'evaluationMode must be "self" or "dual"' });
+        }
+        if (config.customPrompt && config.customPrompt.length > 800) {
+            return res.status(400).json({ error: 'customPrompt must be 800 characters or less' });
+        }
+        if (config.customEvalPrompt && config.customEvalPrompt.length > 500) {
+            return res.status(400).json({ error: 'customEvalPrompt must be 500 characters or less' });
         }
 
         // Create session ID

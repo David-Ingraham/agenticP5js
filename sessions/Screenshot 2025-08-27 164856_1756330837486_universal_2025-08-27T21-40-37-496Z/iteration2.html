@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
+</head>
+<body>
+<script>
+function setup() {
+    createCanvas(520, 522);
+    noLoop();
+}
+function draw() {
+    background('#009999');
+    fill('#CC9900');
+    rect(0, 0, 200, 300);
+    fill('#0066CC');
+    quad(100, 0, 300, 100, 200, 300, 0, 200);
+    fill('#FFFFFF');
+    triangle(100, 0, 300, 100, 100, 200);
+    fill('#FFCC00');
+    rect(300, 0, 220, 522); // Adjusted width to match the target image
+}
+</script>
+</body>
+</html>

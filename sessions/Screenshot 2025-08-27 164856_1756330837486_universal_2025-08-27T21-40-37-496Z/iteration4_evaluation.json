@@ -1,0 +1,6 @@
+{
+  "score": 0,
+  "feedback": "1. The similarity score is: 0\n\n2. Differences:\n- Remove face and hat.\n- Add circular target with concentric rings.\n- Change background from green and blue to black.",
+  "timestamp": "2025-08-27T21:41:32.748Z",
+  "evaluationMethod": "groq_llm"
+}

@@ -1,0 +1,6 @@
+{
+  "score": 8,
+  "feedback": "**Similarity Score: 4**\n\n**Differences:**\n\n1. Remove face and hat from the image.\n2. Add geometric shapes in the top-left corner.\n3. Change background to remove floor lines and add solid-colored background.",
+  "timestamp": "2025-08-27T21:40:59.429Z",
+  "evaluationMethod": "groq_llm"
+}

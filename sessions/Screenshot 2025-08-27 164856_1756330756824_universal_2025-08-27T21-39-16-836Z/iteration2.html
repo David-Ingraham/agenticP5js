@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
+</head>
+<body>
+<script>
+function setup() {
+    createCanvas(520, 522);
+    noLoop();
+}
+function draw() {
+    background('#008080');
+    fill('#FFFF99');
+    rect(120, 0, 280, 50);
+
+    fill('#66B3FF');
+    beginShape();
+    vertex(120, 50);
+    vertex(260, 170);
+    vertex(150, 310);
+    vertex(120, 280);
+    endShape(CLOSE);
+
+    fill('#FFCC00');
+    rect(260,50, 50, 260);
+
+
+}
+</script>
+</body>
+</html>

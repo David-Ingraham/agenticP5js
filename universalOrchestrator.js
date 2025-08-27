@@ -32,7 +32,8 @@ class UniversalOrchestrator {
         this.maxIterations = Math.min(Math.max(config.maxIterations || 5, 1), 7); // 1-7 range
         this.targetScore = Math.min(Math.max(config.targetScore || 15, 1), 20);   // 1-20 range
         this.evaluationMode = config.evaluationMode || 'self'; // 'self' | 'dual'
-        this.customPrompts = config.customPrompts || {};
+        this.customPrompt = config.customPrompt || '';
+        this.customEvalPrompt = config.customEvalPrompt || '';
         
         // Error handling
         this.maxFixAttempts = 3;
@@ -220,7 +221,11 @@ class UniversalOrchestrator {
     async generateCode(targetImagePath, previousCode, previousFeedback, iteration, targetDimensions) {
         if (iteration === 1) {
             console.log('Generating initial code...');
-            return await this.geminiGenerator.generateInitialCode(targetImagePath, targetDimensions);
+            return await this.geminiGenerator.generateInitialCode(
+                targetImagePath, 
+                targetDimensions,
+                this.customPrompt
+            );
         } else {
             console.log(`Generating improved code (iteration ${iteration})...`);
             return await this.geminiGenerator.generateImprovedCode(
@@ -228,7 +233,8 @@ class UniversalOrchestrator {
                 previousCode, 
                 previousFeedback, 
                 iteration,
-                targetDimensions
+                targetDimensions,
+                this.customPrompt
             );
         }
     }
@@ -274,7 +280,11 @@ class UniversalOrchestrator {
                 throw new Error('Groq evaluator not initialized. Please provide GROQ_API_KEY for dual mode.');
             }
             console.log('Evaluating with Groq LLM...');
-            const groqResult = await this.groqEvaluator.compareImages(targetImagePath, screenshotPath);
+            const groqResult = await this.groqEvaluator.compareImages(
+                targetImagePath, 
+                screenshotPath, 
+                this.customEvalPrompt
+            );
             
             // Convert Groq's 0-10 scale to 0-20 scale for consistency
             return {
@@ -375,7 +385,8 @@ class UniversalOrchestrator {
                 evaluationMode: this.evaluationMode,
                 maxIterations: this.maxIterations,
                 targetScore: this.targetScore,
-                customPrompts: this.customPrompts
+                customPrompt: this.customPrompt,
+                customEvalPrompt: this.customEvalPrompt
             },
             iterations: []
         };
