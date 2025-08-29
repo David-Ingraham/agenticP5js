@@ -43,18 +43,39 @@ class SimpleImageTest {
         return data;
     }
 
-    async runTest(imagePath) {
+    async runTest(imageInput) {
         try {
-            // Load the image
-            const imageBuffer = fs.readFileSync(imagePath);
-            const imageBase64 = imageBuffer.toString('base64');
+            let imageBase64, imageUrl = null;
             
-            console.log('Testing with image:', imagePath);
+            // Check if input is a URL or file path
+            if (imageInput.startsWith('http://') || imageInput.startsWith('https://')) {
+                // It's a URL - fetch the image and also store the URL
+                console.log('Testing with image URL:', imageInput);
+                imageUrl = imageInput;
+                
+                const response = await fetch(imageInput);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch image: ${response.status} ${response.statusText}`);
+                }
+                const arrayBuffer = await response.arrayBuffer();
+                const buffer = Buffer.from(arrayBuffer);
+                imageBase64 = buffer.toString('base64');
+            } else {
+                // It's a local file path
+                console.log('Testing with local image:', imageInput);
+                const imageBuffer = fs.readFileSync(imageInput);
+                imageBase64 = imageBuffer.toString('base64');
+            }
             
-            // Ask Gemini to analyze the image and decide if it wants to search
+            // Create prompt based on whether we have a URL
+            const promptText = imageUrl 
+                ? `This is an image that may be algorithmically generated, a photograph, or digital art. You have access to a reverse_image_lookup tool that can search for similar images online. The image is available at this URL: ${imageUrl}. Please analyze the image and use the reverse image lookup tool if you think it would help identify the creation technique or find similar examples.`
+                : `This is an image that may be algorithmically generated, a photograph, or digital art. You have access to a reverse_image_lookup tool, but this image is only available locally (no public URL), so you cannot use the tool for this image. Please analyze what you can see in the image and describe how it might have been created.`;
+            
+            // Ask Gemini to analyze the image
             const result = await this.model.generateContent([
                 {
-                    text: " Please analyze this image and use the reverse image lookup tool to find more info on the image. it may be algormithcally generated image, a real photo graph, or a painting. What can you tell me about how this image was created?"
+                    text: promptText
                 },
                 {
                     inlineData: {
@@ -70,6 +91,8 @@ class SimpleImageTest {
             
             // If Gemini called the tool, handle the results
             const functionCalls = response.functionCalls || [];
+            console.log('Function calls detected:', functionCalls.length);
+            
             if (functionCalls && functionCalls.length > 0) {
                 console.log('\nGemini decided to use reverse image search...');
                 
@@ -108,12 +131,16 @@ class SimpleImageTest {
 
 // Run the test if called directly
 const test = new SimpleImageTest();
-const targetImagePath = 'target_images/test5.png';
 
-if (!fs.existsSync(targetImagePath)) {
-    console.error('Target image not found:', targetImagePath);
-    console.log('Please add perlin_noise.png to the target_images folder');
+// You can test with either a local file or a URL:
+// const imageInput = 'target_images/test5.png';  // Local file
+const imageInput = 'https://raw.githubusercontent.com/processing/p5.js-website/main/src/assets/learn/color/hsb-wheel.png';  // Direct image URL
+
+// If using local file, check if it exists
+if (!imageInput.startsWith('http') && !fs.existsSync(imageInput)) {
+    console.error('Target image not found:', imageInput);
+    console.log('Please add the image file or use a public URL');
     process.exit(1);
 }
 
-test.runTest(targetImagePath); 
+test.runTest(imageInput); 

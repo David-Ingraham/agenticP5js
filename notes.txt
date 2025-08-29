@@ -44,4 +44,9 @@ libraries.
 
  do a shell on isolated vm AND just white list npm instal {libs from file}
 
+ let the model pic its own drawing sotwafre or graphics library beyobd p5js?
+ ^^toggleable
+
+ makes it more complicated to render the results, p5js is just simple with the html 
+
 

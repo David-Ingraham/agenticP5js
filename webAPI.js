@@ -1,11 +1,12 @@
-const express = require('express');
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
-const cors = require('cors');
-require('dotenv').config();
+import express from 'express';
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
+import cors from 'cors';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const UniversalOrchestrator = require('./universalOrchestrator');
+import UniversalOrchestrator from './universalOrchestrator.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -68,8 +69,7 @@ app.post('/api/sessions/create', upload.single('targetImage'), async (req, res) 
             maxIterations: parseInt(req.body.maxIterations) || 5,
             targetScore: parseInt(req.body.targetScore) || 15,
             evaluationMode: req.body.evaluationMode || 'self',
-            customPrompt: req.body.customPrompt || '',
-            customEvalPrompt: req.body.customEvalPrompt || ''
+            webSearchEnabled: req.body.webSearchEnabled === 'true' || false
         };
 
         // Validate configuration
@@ -81,12 +81,6 @@ app.post('/api/sessions/create', upload.single('targetImage'), async (req, res) 
         }
         if (!['self', 'dual'].includes(config.evaluationMode)) {
             return res.status(400).json({ error: 'evaluationMode must be "self" or "dual"' });
-        }
-        if (config.customPrompt && config.customPrompt.length > 800) {
-            return res.status(400).json({ error: 'customPrompt must be 800 characters or less' });
-        }
-        if (config.customEvalPrompt && config.customEvalPrompt.length > 500) {
-            return res.status(400).json({ error: 'customEvalPrompt must be 500 characters or less' });
         }
 
         // Create session ID
@@ -426,4 +420,4 @@ app.listen(PORT, () => {
     console.log(`Make sure the sketch server is running on port 3000`);
 });
 
-module.exports = app;
+export default app;
