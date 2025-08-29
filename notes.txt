@@ -18,3 +18,30 @@ the scond llm would only give three changes as feedback as of now, we need it to
 designing the defeault prompts 
 
 
+letting the model write its ownimage processing code on the fly per image 
+
+no white list commands just give it a vm to destory 
+
+do i just give it a shell and let it rip ? 
+
+
+focus on giving it exmaples of other p5js projects
+
+can we let it do a reverse image search? a lot of thes programatic art things 
+are visualizations of famous algorthims, let empower the agent to use reverse image search 
+and possibly be able to get the algo for the art 
+
+can we tell the ai how many lines the code is that made the image? 
+
+
+with each new tool toggled on, auto adjust the prompt to tell the model about the 
+tools and what it shoudl use them for. see if they can do a reverse image lookup, find the algorithm it is using to make the image. 
+dont tell them its p5js gernerated 
+
+
+toggle to give them model reverse image look up tools and acess to js image analysis
+libraries. 
+
+ do a shell on isolated vm AND just white list npm instal {libs from file}
+
+
