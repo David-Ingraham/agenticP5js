@@ -396,91 +396,15 @@
                     </div>
                 </div>
 
+                <!-- Web Search -->
                 <div class="control-group">
-                    <h3>Generation Prompt</h3>
-                    <div style="margin-bottom: 10px;">
-                        <button type="button" id="showDefaultPrompt" style="
-                            background: #e9ecef; 
-                            border: 1px solid #ddd; 
-                            padding: 8px 15px; 
-                            border-radius: 5px; 
-                            cursor: pointer;
-                            font-size: 0.9em;
-                        ">
-                            Show Default Prompt
-                        </button>
-                        <button type="button" id="resetPrompt" style="
-                            background: #667eea; 
-                            color: white; 
-                            border: none; 
-                            padding: 8px 15px; 
-                            border-radius: 5px; 
-                            cursor: pointer;
-                            font-size: 0.9em;
-                            margin-left: 10px;
-                        ">
-                            Reset to Default
-                        </button>
-                    </div>
-                    <textarea id="customPrompt" placeholder="Enter your custom generation prompt here (max 800 characters)..." 
-                              style="
-                                  width: 100%; 
-                                  height: 120px; 
-                                  padding: 12px; 
-                                  border: 2px solid #e9ecef; 
-                                  border-radius: 8px; 
-                                  font-family: inherit;
-                                  font-size: 0.9em;
-                                  resize: vertical;
-                                  box-sizing: border-box;
-                              "></textarea>
-                    <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.85em; color: #666;">
-                        <span>Customize how the AI generates P5.js code</span>
-                        <span id="charCount">0/800</span>
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <h3>Evaluation Prompt</h3>
-                    <div style="margin-bottom: 10px;">
-                        <button type="button" id="showDefaultEvalPrompt" style="
-                            background: #e9ecef; 
-                            border: 1px solid #ddd; 
-                            padding: 8px 15px; 
-                            border-radius: 5px; 
-                            cursor: pointer;
-                            font-size: 0.9em;
-                        ">
-                            Show Default Eval Prompt
-                        </button>
-                        <button type="button" id="resetEvalPrompt" style="
-                            background: #667eea; 
-                            color: white; 
-                            border: none; 
-                            padding: 8px 15px; 
-                            border-radius: 5px; 
-                            cursor: pointer;
-                            font-size: 0.9em;
-                            margin-left: 10px;
-                        ">
-                            Reset to Default
-                        </button>
-                    </div>
-                    <textarea id="customEvalPrompt" placeholder="Enter custom evaluation prompt (max 500 characters). Only used in 'Gemini + Second LLM' mode..." 
-                              style="
-                                  width: 100%; 
-                                  height: 100px; 
-                                  padding: 12px; 
-                                  border: 2px solid #e9ecef; 
-                                  border-radius: 8px; 
-                                  font-family: inherit;
-                                  font-size: 0.9em;
-                                  resize: vertical;
-                                  box-sizing: border-box;
-                              "></textarea>
-                    <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.85em; color: #666;">
-                        <span>Customize how the second LLM evaluates results</span>
-                        <span id="evalCharCount">0/500</span>
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="webSearchEnabled">
+                        <span class="checkmark"></span>
+                        Enable Web Search
+                    </label>
+                    <div class="description">
+                        Allow the AI to search the web for algorithms and techniques to better recreate the image
                     </div>
                 </div>
             </div>
@@ -531,36 +455,10 @@
             evaluationMode: 'self',
             maxIterations: 5,
             targetScore: 15,
-            customPrompt: '',
-            customEvalPrompt: ''
+            webSearchEnabled: false
         };
 
-        // Default prompt templates
-        const DEFAULT_PROMPT = `You are tasked with recreating this target image using P5.js code. You will have 7 attempts total. After each attempt, you'll receive evaluation feedback to improve the next iteration.
 
-Create a complete HTML file with embedded P5.js that recreates this image focusing on accurate colors, shapes, and composition.
-
-CRITICAL P5.js REQUIREMENTS:
-- Canvas size must EXACTLY match target dimensions
-- Use hex colors ONLY: '#FFCC00', '#FF0000', etc. (NO color() function)
-- Do NOT define variables outside functions
-- All drawing code must be inside the draw() function
-- Use noLoop() for static images
-- Test that your code runs without JavaScript errors
-
-Respond with ONLY the complete HTML code. No explanations.`;
-
-        const DEFAULT_EVAL_PROMPT = `Compare these images and provide:
-
-1. A similarity score from 0-10 (where 10 is identical)
-
-2. List each difference between the two images:
-   - Use simple language: 'add X', 'remove Y', 'change Z to W'
-   - Focus on the most important differences only
-   - One sentence per improvement
-   - Example: 'Add thin black border around entire canvas'
-
-3. No detailed descriptions or explanations - just the score and 3 clear actions.`;
 
         // Initialize event listeners
         document.addEventListener('DOMContentLoaded', function() {
@@ -620,97 +518,13 @@ Respond with ONLY the complete HTML code. No explanations.`;
             // Generate button
             document.getElementById('generateButton').addEventListener('click', startGeneration);
 
-            // Prompt customization
-            const customPromptTextarea = document.getElementById('customPrompt');
-            const charCount = document.getElementById('charCount');
-            const showDefaultPrompt = document.getElementById('showDefaultPrompt');
-            const resetPrompt = document.getElementById('resetPrompt');
-
-            // Character counter
-            customPromptTextarea.addEventListener('input', function() {
-                const length = this.value.length;
-                charCount.textContent = `${length}/800`;
-                
-                // Change color if approaching limit
-                if (length > 720) {
-                    charCount.style.color = '#e74c3c';
-                } else if (length > 640) {
-                    charCount.style.color = '#f39c12';
-                } else {
-                    charCount.style.color = '#666';
-                }
-
-                // Enforce limit
-                if (length > 800) {
-                    this.value = this.value.substring(0, 800);
-                    charCount.textContent = '800/800';
-                    charCount.style.color = '#e74c3c';
-                }
-
-                currentConfig.customPrompt = this.value;
+            // Web search toggle
+            const webSearchToggle = document.getElementById('webSearchEnabled');
+            webSearchToggle.addEventListener('change', function() {
+                currentConfig.webSearchEnabled = this.checked;
             });
 
-            // Show default prompt
-            showDefaultPrompt.addEventListener('click', function() {
-                alert('Default Prompt:\n\n' + DEFAULT_PROMPT);
-            });
 
-            // Reset to default prompt
-            resetPrompt.addEventListener('click', function() {
-                customPromptTextarea.value = DEFAULT_PROMPT;
-                currentConfig.customPrompt = DEFAULT_PROMPT;
-                
-                // Update character count
-                const length = DEFAULT_PROMPT.length;
-                charCount.textContent = `${length}/800`;
-                charCount.style.color = length > 720 ? '#e74c3c' : length > 640 ? '#f39c12' : '#666';
-            });
-
-            // Evaluation prompt customization
-            const customEvalPromptTextarea = document.getElementById('customEvalPrompt');
-            const evalCharCount = document.getElementById('evalCharCount');
-            const showDefaultEvalPrompt = document.getElementById('showDefaultEvalPrompt');
-            const resetEvalPrompt = document.getElementById('resetEvalPrompt');
-
-            // Evaluation prompt character counter
-            customEvalPromptTextarea.addEventListener('input', function() {
-                const length = this.value.length;
-                evalCharCount.textContent = `${length}/500`;
-                
-                // Change color if approaching limit
-                if (length > 450) {
-                    evalCharCount.style.color = '#e74c3c';
-                } else if (length > 400) {
-                    evalCharCount.style.color = '#f39c12';
-                } else {
-                    evalCharCount.style.color = '#666';
-                }
-
-                // Enforce limit
-                if (length > 500) {
-                    this.value = this.value.substring(0, 500);
-                    evalCharCount.textContent = '500/500';
-                    evalCharCount.style.color = '#e74c3c';
-                }
-
-                currentConfig.customEvalPrompt = this.value;
-            });
-
-            // Show default evaluation prompt
-            showDefaultEvalPrompt.addEventListener('click', function() {
-                alert('Default Evaluation Prompt:\n\n' + DEFAULT_EVAL_PROMPT);
-            });
-
-            // Reset to default evaluation prompt
-            resetEvalPrompt.addEventListener('click', function() {
-                customEvalPromptTextarea.value = DEFAULT_EVAL_PROMPT;
-                currentConfig.customEvalPrompt = DEFAULT_EVAL_PROMPT;
-                
-                // Update character count
-                const length = DEFAULT_EVAL_PROMPT.length;
-                evalCharCount.textContent = `${length}/500`;
-                evalCharCount.style.color = length > 450 ? '#e74c3c' : length > 400 ? '#f39c12' : '#666';
-            });
         }
 
         function handleFileSelect(event) {
@@ -764,13 +578,8 @@ Respond with ONLY the complete HTML code. No explanations.`;
                 formData.append('targetScore', currentConfig.targetScore);
                 formData.append('evaluationMode', currentConfig.evaluationMode);
                 
-                // Add custom prompts if provided
-                if (currentConfig.customPrompt && currentConfig.customPrompt.trim()) {
-                    formData.append('customPrompt', currentConfig.customPrompt.trim());
-                }
-                if (currentConfig.customEvalPrompt && currentConfig.customEvalPrompt.trim()) {
-                    formData.append('customEvalPrompt', currentConfig.customEvalPrompt.trim());
-                }
+                // Add web search flag
+                formData.append('webSearchEnabled', currentConfig.webSearchEnabled);
 
                 // Create session
                 showStatus('Creating session...', 'info');
