@@ -54,7 +54,7 @@ class SimpleImageTest {
             // Ask Gemini to analyze the image and decide if it wants to search
             const result = await this.model.generateContent([
                 {
-                    text: "This is a P5.js generated sketch. Please analyze it and use the reverse image lookup tool if you think it would help identify the algorithms or techniques used. What can you tell me about how this image was created?"
+                    text: " Please analyze this image and use the reverse image lookup tool to find more info on the image. it may be algormithcally generated image, a real photo graph, or a painting. What can you tell me about how this image was created?"
                 },
                 {
                     inlineData: {
