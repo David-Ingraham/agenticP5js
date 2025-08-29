@@ -1,12 +1,15 @@
-const fs = require('fs');
-const path = require('path');
-require('dotenv').config();
+import fs from 'fs';
+import path from 'path';
+import dotenv from 'dotenv';
+dotenv.config();
+import { GoogleGenerativeAI } from '@google/generative-ai';
+import fetch from 'node-fetch';
 
 // Import our modules
-const GeminiCodeGenerator = require('./lib/geminiCodeGenerator');
-const ImageEvaluator = require('./lib/evaluator');
-const SketchCapture = require('./lib/capture');
-const ErrorDetector = require('./lib/errorDetector');
+import GeminiCodeGenerator from './lib/geminiCodeGenerator.js';
+import ImageEvaluator from './lib/evaluator.js';
+import SketchCapture from './lib/capture.js';
+import ErrorDetector from './lib/errorDetector.js';
 
 class UniversalOrchestrator {
     constructor(config = {}) {
@@ -32,8 +35,19 @@ class UniversalOrchestrator {
         this.maxIterations = Math.min(Math.max(config.maxIterations || 5, 1), 7); // 1-7 range
         this.targetScore = Math.min(Math.max(config.targetScore || 15, 1), 20);   // 1-20 range
         this.evaluationMode = config.evaluationMode || 'self'; // 'self' | 'dual'
-        this.customPrompt = config.customPrompt || '';
-        this.customEvalPrompt = config.customEvalPrompt || '';
+        this.webSearchEnabled = config.webSearchEnabled || false;
+        
+        // Initialize web search if enabled
+        if (this.webSearchEnabled) {
+            this.serpApiKey = process.env.SERP_API_KEY;
+            if (!this.serpApiKey) {
+                console.warn('SERP_API_KEY not found - web search will be disabled');
+                this.webSearchEnabled = false;
+            } else {
+                // Initialize Gemini model with web search tool
+                this.webSearchModel = this.initializeWebSearchModel();
+            }
+        }
         
         // Error handling
         this.maxFixAttempts = 3;
@@ -42,6 +56,159 @@ class UniversalOrchestrator {
         console.log(`- Evaluation Mode: ${this.evaluationMode}`);
         console.log(`- Max Iterations: ${this.maxIterations}`);
         console.log(`- Target Score: ${this.targetScore}/20`);
+        console.log(`- Web Search: ${this.webSearchEnabled ? 'Enabled' : 'Disabled'}`);
+    }
+
+    /**
+     * Initialize Gemini model with web search tool
+     */
+    initializeWebSearchModel() {
+        const genAI = new GoogleGenerativeAI(this.geminiApiKey);
+        return genAI.getGenerativeModel({ 
+            model: "gemini-1.5-pro",
+            tools: [{
+                function_declarations: [{
+                    name: "web_search",
+                    description: "Search the web for information about algorithms, techniques, or tutorials to help recreate the image",
+                    parameters: {
+                        type: "object",
+                        properties: {
+                            query: {
+                                type: "string",
+                                description: "Search terms based on image analysis to find relevant techniques, algorithms, or tutorials"
+                            }
+                        },
+                        required: ["query"]
+                    }
+                }]
+            }]
+        });
+    }
+
+    /**
+     * Perform web search using SerpAPI
+     */
+    async performWebSearch(query) {
+        console.log(`\nPerforming web search for: "${query}"`);
+        
+        try {
+            const searchUrl = `https://serpapi.com/search.json?engine=google&q=${encodeURIComponent(query)}&api_key=${this.serpApiKey}&num=5`;
+            const response = await fetch(searchUrl);
+            const data = await response.json();
+            
+            if (data.organic_results) {
+                const results = data.organic_results.slice(0, 5).map(result => ({
+                    title: result.title,
+                    url: result.link,
+                    snippet: result.snippet
+                }));
+                console.log(`Found ${results.length} search results`);
+                return { results };
+            } else {
+                console.log('No search results found');
+                return { results: [] };
+            }
+        } catch (error) {
+            console.error('Web search failed:', error);
+            return { results: [], error: error.message };
+        }
+    }
+
+    /**
+     * Analyze image with web search capabilities
+     */
+    async analyzeImageWithWebSearch(targetImagePath) {
+        if (!this.webSearchEnabled) {
+            return null;
+        }
+
+        console.log('\n=== Web Search Analysis ===');
+        
+        try {
+            // Read the image
+            const imageBuffer = fs.readFileSync(targetImagePath);
+            const imageBase64 = imageBuffer.toString('base64');
+            
+            // Send to Gemini with web search capability
+            const result = await this.webSearchModel.generateContent([
+                {
+                    text: "You have access to a web_search tool. Analyze this image and if it appears to be algorithmically generated, use the web search tool to find relevant techniques or algorithms that could help recreate it. Focus on finding specific p5.js or generative art techniques."
+                },
+                {
+                    inlineData: {
+                        mimeType: "image/png",
+                        data: imageBase64
+                    }
+                }
+            ]);
+
+            const response = await result.response;
+            console.log('\nInitial analysis:', response.text());
+            
+            // Check if Gemini called the web search function
+            const functionCalls = response.functionCalls || [];
+            
+            if (functionCalls.length > 0) {
+                console.log('\nGemini decided to search the web...');
+                
+                let searchResults = null;
+                for (const call of functionCalls) {
+                    if (call.name === 'web_search') {
+                        const { query } = call.args;
+                        searchResults = await this.performWebSearch(query);
+                        
+                        // Send results back to Gemini for analysis
+                        const contents = [
+                            {
+                                role: 'user',
+                                parts: [{
+                                    text: "Please analyze this image and search for relevant information to understand how it was created."
+                                }, {
+                                    inlineData: {
+                                        mimeType: "image/png",
+                                        data: imageBase64
+                                    }
+                                }]
+                            },
+                            response.candidates[0].content, // Add model's response with function call
+                            {
+                                role: 'user', 
+                                parts: [{
+                                    functionResponse: {
+                                        name: 'web_search',
+                                        response: searchResults
+                                    }
+                                }]
+                            }
+                        ];
+
+                        const followUp = await this.webSearchModel.generateContent({
+                            contents: contents
+                        });
+
+                        const analysis = await followUp.response;
+                        console.log('\nWeb search analysis result:');
+                        console.log(analysis.text());
+                        
+                        return {
+                            searchQuery: query,
+                            searchResults: searchResults.results,
+                            analysis: analysis.text()
+                        };
+                    }
+                }
+            } else {
+                console.log('\nGemini did not use web search for this image');
+                return {
+                    analysis: response.text(),
+                    searchResults: []
+                };
+            }
+            
+        } catch (error) {
+            console.error('Web search analysis failed:', error);
+            return null;
+        }
     }
     
     /**
@@ -60,7 +227,7 @@ class UniversalOrchestrator {
             console.log(`Mode: ${this.evaluationMode.toUpperCase()}`);
             
             // Get target dimensions using sharp directly
-            const sharp = require('sharp');
+            const sharp = (await import('sharp')).default;
             const metadata = await sharp(targetImagePath).metadata();
             const targetDimensions = {
                 width: metadata.width,
@@ -69,6 +236,13 @@ class UniversalOrchestrator {
             };
             console.log(`Target dimensions: ${targetDimensions.width}x${targetDimensions.height}`);
             
+            // Perform web search analysis if enabled
+            let webSearchContext = null;
+            if (this.webSearchEnabled) {
+                console.log('\n Performing web search analysis...');
+                webSearchContext = await this.analyzeImageWithWebSearch(targetImagePath);
+            }
+
             // Session state
             let previousCode = null;
             let previousFeedback = null;
@@ -101,7 +275,8 @@ class UniversalOrchestrator {
                     previousCode, 
                     previousFeedback, 
                     iteration, 
-                    targetDimensions
+                    targetDimensions,
+                    webSearchContext
                 );
                 
                 // Save code
@@ -218,13 +393,28 @@ class UniversalOrchestrator {
     /**
      * Generate code based on iteration and previous feedback
      */
-    async generateCode(targetImagePath, previousCode, previousFeedback, iteration, targetDimensions) {
+    async generateCode(targetImagePath, previousCode, previousFeedback, iteration, targetDimensions, webSearchContext = null) {
         if (iteration === 1) {
             console.log('Generating initial code...');
+            
+            // Build enhanced prompt with web search context
+            let enhancedPrompt = '';
+            if (webSearchContext && webSearchContext.analysis) {
+                enhancedPrompt = `ADDITIONAL CONTEXT: Web search analysis suggests this image may involve: ${webSearchContext.analysis}\n\n`;
+                if (webSearchContext.searchResults && webSearchContext.searchResults.length > 0) {
+                    enhancedPrompt += `Relevant techniques found:\n`;
+                    webSearchContext.searchResults.forEach((result, i) => {
+                        enhancedPrompt += `${i + 1}. ${result.title}: ${result.snippet}\n`;
+                    });
+                    enhancedPrompt += '\n';
+                }
+                enhancedPrompt += 'Use this information to inform your approach when recreating the image.\n\n';
+            }
+            
             return await this.geminiGenerator.generateInitialCode(
                 targetImagePath, 
                 targetDimensions,
-                this.customPrompt
+                enhancedPrompt
             );
         } else {
             console.log(`Generating improved code (iteration ${iteration})...`);
@@ -234,7 +424,7 @@ class UniversalOrchestrator {
                 previousFeedback, 
                 iteration,
                 targetDimensions,
-                this.customPrompt
+                '' // No custom prompt for improved iterations
             );
         }
     }
@@ -283,7 +473,7 @@ class UniversalOrchestrator {
             const groqResult = await this.groqEvaluator.compareImages(
                 targetImagePath, 
                 screenshotPath, 
-                this.customEvalPrompt
+                '' // No custom eval prompt
             );
             
             // Convert Groq's 0-10 scale to 0-20 scale for consistency
@@ -385,8 +575,7 @@ class UniversalOrchestrator {
                 evaluationMode: this.evaluationMode,
                 maxIterations: this.maxIterations,
                 targetScore: this.targetScore,
-                customPrompt: this.customPrompt,
-                customEvalPrompt: this.customEvalPrompt
+                webSearchEnabled: this.webSearchEnabled
             },
             iterations: []
         };
@@ -421,8 +610,6 @@ class UniversalOrchestrator {
     }
 }
 
-module.exports = UniversalOrchestrator;
-
 // Test function
 async function runTest() {
     const config = {
@@ -449,7 +636,4 @@ async function runTest() {
     }
 }
 
-// Run test if this file is executed directly
-if (require.main === module) {
-    runTest();
-}
+export default UniversalOrchestrator;
