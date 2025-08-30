@@ -9,9 +9,18 @@ package.json
 
 
 
-
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.webp
+*.mp4
 
 
 
 sessions/
 uploads/
+target_images/
+screenshots/
+.DS_Store
