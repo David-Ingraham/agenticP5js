@@ -64,24 +64,27 @@ class UniversalOrchestrator {
      */
     initializeWebSearchModel() {
         const genAI = new GoogleGenerativeAI(this.geminiApiKey);
+        
+        const toolConfig = {
+            function_declarations: [{
+                name: "web_search",
+                description: "Search the web for information about algorithms, techniques, or tutorials",
+                parameters: {
+                    type: "object",
+                    properties: {
+                        query: {
+                            type: "string",
+                            description: "Search terms to look up based off what you think the image is so you can best recreate it with pfjs. You're not trying to find website for teaching humans how to draw or paint it, you're looking for ways a computer can recreate it. We are just trying to recreating it with p5js.  Image may be Photograph, painting, generative art, etc."
+                        }
+                    },
+                    required: ["query"]
+                }
+            }]
+        };
+        
         return genAI.getGenerativeModel({ 
             model: "gemini-1.5-pro",
-            tools: [{
-                function_declarations: [{
-                    name: "web_search",
-                    description: "Search the web for information about algorithms, techniques, or tutorials to help recreate the image",
-                    parameters: {
-                        type: "object",
-                        properties: {
-                            query: {
-                                type: "string",
-                                description: "Search terms based on image analysis to find relevant techniques, algorithms, or tutorials"
-                            }
-                        },
-                        required: ["query"]
-                    }
-                }]
-            }]
+            tools: [toolConfig]
         });
     }
 
@@ -132,7 +135,7 @@ class UniversalOrchestrator {
             // Send to Gemini with web search capability
             const result = await this.webSearchModel.generateContent([
                 {
-                    text: "You have access to a web_search tool. Analyze this image and if it appears to be algorithmically generated, use the web search tool to find relevant techniques or algorithms that could help recreate it. Focus on finding specific p5.js or generative art techniques."
+                    text: "You have access to a web_search tool. The goal is to find techniques or algorithsm used to create this image. First anlayse the image and surmise if it was algorithmically generated, if so tyr to find the algorithm with ethe search tool Call the web_search function with relevant keywords, like how to do x or recreate y."
                 },
                 {
                     inlineData: {
@@ -145,58 +148,120 @@ class UniversalOrchestrator {
             const response = await result.response;
             console.log('\nInitial analysis:', response.text());
             
+            // Add debugging like in test_web_search.js
+            console.log('\n=== DEBUG INFO ===');
+            console.log('Response object keys:', Object.keys(response));
+            console.log('Response candidates:', response.candidates?.length || 0);
+            
+            if (response.candidates && response.candidates[0]) {
+                const candidate = response.candidates[0];
+                console.log('First candidate keys:', Object.keys(candidate));
+                if (candidate.content?.parts) {
+                    console.log('Content parts:', candidate.content.parts.length);
+                    candidate.content.parts.forEach((part, i) => {
+                        console.log(`Part ${i}:`, Object.keys(part));
+                        if (part.functionCall) {
+                            console.log(`  Function call found:`, part.functionCall);
+                        }
+                    });
+                }
+            }
+            
             // Check if Gemini called the web search function
-            const functionCalls = response.functionCalls || [];
+            console.log('Checking for function calls...');
+            let functionCalls = [];
+            
+            // Method 1: Try functionCalls() method
+            if (typeof response.functionCalls === 'function') {
+                functionCalls = response.functionCalls();
+                console.log('Method 1 (functionCalls()):', functionCalls.length);
+            } else {
+                console.log('Method 1: functionCalls() method not available');
+            }
+            
+            // Method 2: Check candidates for function calls
+            if (response.candidates && response.candidates[0]) {
+                const candidate = response.candidates[0];
+                if (candidate.content?.parts) {
+                    const functionCallParts = candidate.content.parts.filter(part => part.functionCall);
+                    console.log('Method 2 (candidate parts):', functionCallParts.length, 'function calls found');
+                    if (functionCallParts.length > 0) {
+                        functionCalls = functionCallParts.map(part => part.functionCall);
+                    }
+                }
+            }
+            
+            console.log('Total function calls found:', functionCalls.length);
             
             if (functionCalls.length > 0) {
-                console.log('\nGemini decided to search the web...');
+                console.log(`\nGemini decided to search the web with ${functionCalls.length} queries...`);
                 
-                let searchResults = null;
+                // Collect all search results
+                const allSearchResults = [];
+                const functionResponses = [];
+                
                 for (const call of functionCalls) {
                     if (call.name === 'web_search') {
                         const { query } = call.args;
-                        searchResults = await this.performWebSearch(query);
+                        console.log(`Search query: ${query}`);
+                        const searchResults = await this.performWebSearch(query);
                         
-                        // Send results back to Gemini for analysis
-                        const contents = [
-                            {
-                                role: 'user',
-                                parts: [{
-                                    text: "Please analyze this image and search for relevant information to understand how it was created."
-                                }, {
-                                    inlineData: {
-                                        mimeType: "image/png",
-                                        data: imageBase64
-                                    }
-                                }]
-                            },
-                            response.candidates[0].content, // Add model's response with function call
-                            {
-                                role: 'user', 
-                                parts: [{
-                                    functionResponse: {
-                                        name: 'web_search',
-                                        response: searchResults
-                                    }
-                                }]
-                            }
-                        ];
-
-                        const followUp = await this.webSearchModel.generateContent({
-                            contents: contents
+                        // Log search results like in test script
+                        console.log('\nSearch results:');
+                        searchResults.results.forEach((result, i) => {
+                            console.log(`${i + 1}. ${result.title}`);
+                            console.log(`   ${result.url}`);
+                            console.log(`   ${result.snippet}\n`);
                         });
-
-                        const analysis = await followUp.response;
-                        console.log('\nWeb search analysis result:');
-                        console.log(analysis.text());
                         
-                        return {
-                            searchQuery: query,
-                            searchResults: searchResults.results,
-                            analysis: analysis.text()
-                        };
+                        allSearchResults.push({
+                            query: query,
+                            results: searchResults.results
+                        });
+                        
+                        // Create function response for this call
+                        functionResponses.push({
+                            functionResponse: {
+                                name: 'web_search',
+                                response: searchResults
+                            }
+                        });
                     }
                 }
+                
+                // Send all results back to Gemini for analysis
+                const contents = [
+                    {
+                        role: 'user',
+                        parts: [{
+                            text: "Please analyze this image and search for relevant information to understand how it was created."
+                        }, {
+                            inlineData: {
+                                mimeType: "image/png",
+                                data: imageBase64
+                            }
+                        }]
+                    },
+                    response.candidates[0].content, // Add model's response with function calls
+                    {
+                        role: 'user', 
+                        parts: functionResponses // Send all function responses
+                    }
+                ];
+
+                const followUp = await this.webSearchModel.generateContent({
+                    contents: contents
+                });
+
+                const analysis = await followUp.response;
+                console.log('\nWeb search analysis result:');
+                console.log(analysis.text());
+                
+                return {
+                    searchQueries: allSearchResults.map(r => r.query),
+                    searchResults: allSearchResults,
+                    analysis: analysis.text()
+                };
             } else {
                 console.log('\nGemini did not use web search for this image');
                 return {

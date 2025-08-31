@@ -169,7 +169,10 @@ class WebSearchTest {
             console.log('Total function calls found:', functionCalls.length);
             
             if (functionCalls && functionCalls.length > 0) {
-                console.log('\nGemini decided to search the web...');
+                console.log(`\nGemini decided to search the web with ${functionCalls.length} queries...`);
+                
+                // Collect all function responses
+                const functionResponses = [];
                 
                 for (const call of functionCalls) {
                     if (call.name === 'web_search') {
@@ -184,40 +187,43 @@ class WebSearchTest {
                             console.log(`   ${result.snippet}\n`);
                         });
                         
-                        // Build conversation history as shown in documentation
-                        const contents = [
-                            {
-                                role: 'user',
-                                parts: [{
-                                    text: "Please analyze this image and search for relevant information to understand how it was created."
-                                }, {
-                                    inlineData: {
-                                        mimeType: "image/png",
-                                        data: imageBase64
-                                    }
-                                }]
-                            },
-                            response.candidates[0].content, // Add model's response with function call
-                            {
-                                role: 'user', 
-                                parts: [{
-                                    functionResponse: {
-                                        name: 'web_search',
-                                        response: searchResults
-                                    }
-                                }]
+                        // Add function response for this call
+                        functionResponses.push({
+                            functionResponse: {
+                                name: 'web_search',
+                                response: searchResults
                             }
-                        ];
-
-                        const followUp = await this.model.generateContent({
-                            contents: contents
                         });
-                        
-                        const followUpResponse = await followUp.response;
-                        console.log('\nGemini analysis after web search:');
-                        console.log(followUpResponse.text());
                     }
                 }
+                
+                // Build conversation history with all function responses
+                const contents = [
+                    {
+                        role: 'user',
+                        parts: [{
+                            text: "Please analyze this image and search for relevant information to understand how it was created."
+                        }, {
+                            inlineData: {
+                                mimeType: "image/png",
+                                data: imageBase64
+                            }
+                        }]
+                    },
+                    response.candidates[0].content, // Add model's response with function calls
+                    {
+                        role: 'user', 
+                        parts: functionResponses // Send all function responses
+                    }
+                ];
+
+                const followUp = await this.model.generateContent({
+                    contents: contents
+                });
+                
+                const followUpResponse = await followUp.response;
+                console.log('\nGemini analysis after web search:');
+                console.log(followUpResponse.text());
             } else {
                 console.log('\nGemini did not use the web search tool');
             }
