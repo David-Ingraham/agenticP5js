@@ -1,0 +1,12 @@
+natural lang visual analysis of each top seller ->> sythesize a style that combines all 5 ->> make p5js ->> mints
+
+add web and social media searchin tool to find refrences of the artist or art name so we can know exactly what people liked about it
+
+let model pick what tools to use for image gen (beyond p5js)
+
+give model ability to follow people on social media so it can accumliate its own following, let model post about its art nd market it 
+
+let model decide pricing 
+
+
+https://docs.magiceden.io/reference/get_marketplace-popular-collections
